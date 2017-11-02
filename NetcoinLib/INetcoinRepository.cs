@@ -9,5 +9,6 @@ namespace NetcoinLib
     {
         List<Customer> GetCustomers();
         List<Account> GetAccounts();
+        void Save();
     }
 }
