@@ -28,5 +28,10 @@ namespace NetcoinDbLib
         public List<Customer> GetCustomers() => Customers;
 
         public List<Account> GetAccounts() => Accounts;
+
+        public void Save()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
