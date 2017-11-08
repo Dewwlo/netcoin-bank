@@ -13,6 +13,10 @@ namespace NetcoinLib
             _netcoinRepository = netcoinRepository;
         }
 
+        public void ReadTextFile(string fileName) => _netcoinRepository.ReadSerializedData(fileName);
+
+        public void SaveTextFile() => _netcoinRepository.Save();
+
         public void WithdrawFromAccount(int accountId, decimal amountToWithdraw)
         {
             Account account = _netcoinRepository.GetAccounts().SingleOrDefault(x => x.AccountId == accountId);

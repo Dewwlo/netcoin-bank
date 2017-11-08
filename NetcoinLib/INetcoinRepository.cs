@@ -9,6 +9,7 @@ namespace NetcoinLib
     {
         List<Customer> GetCustomers();
         List<Account> GetAccounts();
+        void ReadSerializedData(string fileName);
         void Save();
     }
 }
