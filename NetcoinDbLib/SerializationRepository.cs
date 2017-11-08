@@ -25,8 +25,8 @@ namespace NetcoinDbLib
             }
         }
 
-        static Assembly assembly = Assembly.GetExecutingAssembly();
-        private readonly string _path = System.IO.Path.GetDirectoryName(assembly.Location)+ "\\data\\";
+        private static readonly Assembly Assembly = Assembly.GetExecutingAssembly();
+        private readonly string _path = System.IO.Path.GetDirectoryName(Assembly.Location)+ "\\data\\";
         private string _fileName; 
         private List<Customer> Customers { get; } = new List<Customer>();
         private List<Account> Accounts { get; } = new List<Account>();
