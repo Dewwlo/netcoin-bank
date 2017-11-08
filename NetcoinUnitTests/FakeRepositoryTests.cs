@@ -11,7 +11,7 @@ namespace NetcoinUnitTests
         [Fact]
         public void FakeRepositoryAndSampleCreationWorksForTests()
         {
-            NetcoinRepoRepresentation representation = NetcoinRepositoryUtility.CreateSampleCustomers(5);
+            NetcoinRepoRepresentation representation = NetcoinRepositoryUtility.CreateSampleCustomersAndAccounts(5);
             INetcoinRepository fakeProvider = new FakeNetcoinRepository();
             fakeProvider.GetCustomers().AddRange(representation.Customers);
             fakeProvider.GetAccounts().AddRange(representation.Accounts);

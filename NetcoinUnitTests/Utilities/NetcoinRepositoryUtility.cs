@@ -12,7 +12,7 @@ namespace NetcoinUnitTests.Utilities
         //if a default is given it is applied to every account
         //the customer names and IDs start on 1 and follows a pattern like this: CustomerId = 1, Name = 1Name
         //every customer gets two accounts with unique account IDs starting on 1
-        public static NetcoinRepoRepresentation CreateSampleCustomers(int amountOfCustomers, decimal? defaultAccountBalance = null)
+        public static NetcoinRepoRepresentation CreateSampleCustomersAndAccounts(int amountOfCustomers, decimal? defaultAccountBalance = null)
         {
             NetcoinRepoRepresentation retVal = new NetcoinRepoRepresentation();
             int accountNoTracker = 1;
