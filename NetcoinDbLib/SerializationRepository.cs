@@ -22,7 +22,7 @@ namespace NetcoinDbLib
         private List<Customer> Customers { get; set; }
         private List<Account> Accounts { get; set; }
 
-        SerializationRepository()
+        private SerializationRepository()
         {
             ReadSerializedData();
         }
