@@ -6,5 +6,9 @@ namespace NetcoinLib.Services
 {
     class CustomerService
     {
+        public void GetCustomer(string search)
+        {
+
+        }
     }
 }
