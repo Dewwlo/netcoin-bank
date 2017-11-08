@@ -11,10 +11,24 @@ namespace NetcoinDbLib
 {
     public class SerializationRepository : INetcoinRepository
     {
+        private static INetcoinRepository instance { get; set; }
+        public static INetcoinRepository Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new SerializationRepository();
+                }
+                return instance;
+            }
+        }
         private string path = "C:/Users/a_bjo/Desktop/skolprojekt/ALM/NetcoinBank/data/";
         private string _fileName; 
         private List<Customer> Customers { get; } = new List<Customer>();
         private List<Account> Accounts { get; } = new List<Account>();
+
+        private SerializationRepository()
 
         public List<Customer> GetCustomers() => Customers;
 
