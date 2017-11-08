@@ -29,6 +29,9 @@ namespace NetcoinDbLib
         private List<Account> Accounts { get; } = new List<Account>();
 
         private SerializationRepository()
+        {
+            
+        }
 
         public List<Customer> GetCustomers() => Customers;
 
