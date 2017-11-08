@@ -7,6 +7,18 @@ namespace NetcoinDbLib
 {
     public class SerializationRepository : INetcoinRepository
     {
+        private static INetcoinRepository instance { get; set; }
+        public static INetcoinRepository Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new SerializationRepository();
+                }
+                return instance;
+            }
+        }
         private List<Customer> Customers { get; set; }
         private List<Account> Accounts { get; set; }
 
