@@ -19,7 +19,7 @@ namespace NetcoinUnitTests
             INetcoinRepository fakeProvider = new FakeNetcoinRepository();
             fakeProvider.GetCustomers().AddRange(representation.Customers);
             CustomerService sut = new CustomerService(fakeProvider);
-            var result = sut.SearchAfterCustomerWithAreaOrName("1Name");
+            var result = sut.SearchAfterCustomerWithAreaOrName("Name");
             Assert.Equal(fakeProvider.GetCustomers().Count, result.Count);
         }
     }
