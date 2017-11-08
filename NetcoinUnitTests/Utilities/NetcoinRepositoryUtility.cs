@@ -16,7 +16,7 @@ namespace NetcoinUnitTests.Utilities
         {
             NetcoinRepoRepresentation retVal = new NetcoinRepoRepresentation();
             int accountNoTracker = 1;
-            for (int i = 1; i < amountOfCustomers + 1; i++)
+            for (int i = 1; i <= amountOfCustomers; i++)
             {
                 Customer customer = new Customer()
                 {
