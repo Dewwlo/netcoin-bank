@@ -1,15 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NetcoinDbLib;
+using NetcoinLib;
 
 namespace NetcoinCLI
 {
     public class Menu
     {
+        private readonly BankSystem _bankSystem;
         private bool isRunning = true;
 
-        public void MenuSelection()
-        {           
+        public Menu(BankSystem bankSystem)
+        {
+            _bankSystem = bankSystem;
+        }
+
+        public void MenuSelection(string[] args)
+        {
+            _bankSystem.ReadTextFile(args[0]);
+
             while (isRunning)
             {
                 HandleMenuSelection(Console.ReadLine().ToLower());
@@ -103,6 +113,7 @@ namespace NetcoinCLI
                         break;
                     case "avsluta":
                         isRunning = false;
+                        _bankSystem.SaveTextFile();
                         break;
                     default:
                         Console.WriteLine("Alternativ finns inte");
