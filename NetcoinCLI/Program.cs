@@ -6,6 +6,10 @@ namespace NetcoinCLI
     {
         static void Main(string[] args)
         {
+            var menu = new Menu();
+            menu.ShowBankLogo();
+            menu.ShowMenu();
+            menu.MenuSelection();           
         }
     }
 }
