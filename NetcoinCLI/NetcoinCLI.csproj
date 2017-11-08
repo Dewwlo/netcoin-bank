@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NetcoinDbLib\NetcoinDbLib.csproj" />
-    <ProjectReference Include="..\NetcoinLib\NetcoinLib.csproj" />
   </ItemGroup>
 
 </Project>

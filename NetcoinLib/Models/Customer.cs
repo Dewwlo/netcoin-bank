@@ -12,6 +12,9 @@ namespace NetcoinLib.Models
         public string Address { get; set; }
         public string PostalCode { get; set; }
         public string Area { get; set; }
+        public string City { get; set; }
+        public string Country { get; set; }
+        public string PhoneNumber { get; set; }
         public ICollection<Account> Accounts { get; set; }
         public bool CanDelete => throw new NotImplementedException();
     }
