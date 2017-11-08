@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetcoinLib", "NetcoinLib\Ne
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetcoinUnitTests", "NetcoinUnitTests\NetcoinUnitTests.csproj", "{DDF538C0-DADF-4255-9710-1EDA08FF2599}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetcoinDbLib", "NetcoinDbLib\NetcoinDbLib.csproj", "{03E31022-FD32-4976-9624-2426E8F157B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetcoinDbLib", "NetcoinDbLib\NetcoinDbLib.csproj", "{03E31022-FD32-4976-9624-2426E8F157B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
