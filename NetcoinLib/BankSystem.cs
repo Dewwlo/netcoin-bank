@@ -25,10 +25,10 @@ namespace NetcoinLib
             Account account = _netcoinRepository.GetAccounts().SingleOrDefault(x => x.AccountId == accountId);
             if (account != null)
             {
-                if (account.Balance >= amountToWithdraw)
+                if (account.Balance >= amountToWithdraw && amountToWithdraw > 0.1M)
                     account.Balance = account.Balance - amountToWithdraw;
                 else
-                    throw new Exception($"Not enough balance ({ account.Balance }) in account with ID { accountId } in order to withdraw { amountToWithdraw }");
+                    throw new Exception($"Negative amount, or not enough balance ({ account.Balance }) in account with ID { accountId } in order to withdraw { amountToWithdraw }");
             }
             else
             {
