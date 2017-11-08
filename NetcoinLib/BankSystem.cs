@@ -7,6 +7,9 @@ namespace NetcoinLib
 {
     public class BankSystem
     {
+        public List<Customer> Customers { get; set; }
+        public List<Account> Accounts { get; set; }
+
         private readonly INetcoinRepository _netcoinRepository;
         public BankSystem(INetcoinRepository netcoinRepository)
         {
@@ -25,7 +28,7 @@ namespace NetcoinLib
                 if (account.Balance >= amountToWithdraw)
                     account.Balance = account.Balance - amountToWithdraw;
                 else
-                    throw new Exception($"Not the balance ({ account.Balance }) to withdraw { amountToWithdraw }");
+                    throw new Exception($"Not enough balance ({ account.Balance }) in account with ID { accountId } in order to withdraw { amountToWithdraw }");
             }
             else
             {
