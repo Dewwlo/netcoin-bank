@@ -31,9 +31,13 @@ namespace NetcoinLib.Services
                     PostalCode = PostalCode,
                     Accounts = new List<Account>()
                 };
-                // TODO Replace transaction account with real CreateAccount once method is made
-                Account transaction = new Account { Balance = 0, Customer = customer };
-                customer.Accounts.Add(transaction);
+                AccountService aService = new AccountService(repository);
+                bool success = aService.CreateAccount(customer);
+                if (success)
+                {
+                    Account transaction = repository.GetAccounts().Find(x => x.CustomerId == customer.CustomerId);
+                    repository.GetAccounts().Add(transaction);
+                }
                 repository.GetCustomers().Add(customer);
                 return true;
             }
