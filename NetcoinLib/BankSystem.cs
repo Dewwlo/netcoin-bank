@@ -20,6 +20,8 @@ namespace NetcoinLib
             {
                 if (account.Balance >= amountToWithdraw)
                     account.Balance = account.Balance - amountToWithdraw;
+                else
+                    throw new Exception($"Not the balance ({ account.Balance }) to withdraw { amountToWithdraw }");
             }
             else
             {
