@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -10,13 +11,19 @@ namespace NetcoinDbLib
 {
     public class SerializationRepository : INetcoinRepository
     {
+        private string path = "C:/Users/a_bjo/Desktop/skolprojekt/ALM/NetcoinBank/data/";
+        private string _fileName; 
         private List<Customer> Customers { get; } = new List<Customer>();
         private List<Account> Accounts { get; } = new List<Account>();
 
+        public List<Customer> GetCustomers() => Customers;
+
+        public List<Account> GetAccounts() => Accounts;
+
         public void ReadSerializedData(string fileName)
         {
-            var path = "C:/Users/a_bjo/Desktop/skolprojekt/ALM/NetcoinBank/data/" + fileName;
-            using (StreamReader reader = new StreamReader(path))
+            _fileName = fileName;
+            using (StreamReader reader = new StreamReader(path + fileName))
             {
                 string line;
                 while ((line = reader.ReadLine()) != null)
@@ -30,13 +37,33 @@ namespace NetcoinDbLib
                 }
             }
         }
-
-        public List<Customer> GetCustomers() => Customers;
-
-        public List<Account> GetAccounts() => Accounts;
         public void Save()
         {
-            throw new NotImplementedException();
+            using (var writer = new StreamWriter(path + _fileName))
+            {
+                WriteToFile(writer);
+            }
+
+            using (var writer = new StreamWriter($"{path}{DateTime.UtcNow:yyyyMMdd-hhmm}.txt"))
+            {
+                WriteToFile(writer);
+            }
+        }
+
+        private void WriteToFile(StreamWriter writer)
+        {
+            writer.WriteLine(Customers.Count);
+            Customers.ForEach(c =>
+            {
+                writer.WriteLine($"{c.CustomerId};{c.LegalId};{c.Name};" +
+                                 $"{c.Address};{c.City};{c.Area};{c.PostalCode};" +
+                                 $"{c.Country};{c.PhoneNumber}");
+            });
+            writer.WriteLine(Accounts.Count);
+            Accounts.ForEach(a =>
+            {
+                writer.WriteLine($"{a.AccountId};{a.CustomerId};{a.Balance}");
+            });
         }
 
         private void ReadCustomer(string customer)

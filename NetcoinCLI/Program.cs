@@ -11,6 +11,8 @@ namespace NetcoinCLI
         {
             var bankSystem = new BankSystem(new SerializationRepository());
             bankSystem.ReadTextFile(args[0]);
+            Console.ReadLine();
+            bankSystem.SaveTextFile();
         }
     }
 }

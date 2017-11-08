@@ -11,5 +11,7 @@ namespace NetcoinLib
         }
 
         public void ReadTextFile(string fileName) => _netcoinRepository.ReadSerializedData(fileName);
+
+        public void SaveTextFile() => _netcoinRepository.Save();
     }
 }
