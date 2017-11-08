@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using NetcoinLib;
 using NetcoinLib.Models;
@@ -23,7 +24,9 @@ namespace NetcoinDbLib
                 return instance;
             }
         }
-        private string path = "C:/Users/a_bjo/Desktop/skolprojekt/ALM/NetcoinBank/data/";
+
+        static Assembly assembly = Assembly.GetExecutingAssembly();
+        private readonly string _path = System.IO.Path.GetDirectoryName(assembly.Location)+ "\\data\\";
         private string _fileName; 
         private List<Customer> Customers { get; } = new List<Customer>();
         private List<Account> Accounts { get; } = new List<Account>();
@@ -39,8 +42,8 @@ namespace NetcoinDbLib
 
         public void ReadSerializedData(string fileName)
         {
-            _fileName = fileName;
-            using (StreamReader reader = new StreamReader(path + fileName))
+            _fileName =  fileName;
+            using (StreamReader reader = new StreamReader(_path + fileName))
             {
                 string line;
                 while ((line = reader.ReadLine()) != null)
@@ -56,12 +59,12 @@ namespace NetcoinDbLib
         }
         public void Save()
         {
-            using (var writer = new StreamWriter(path + _fileName))
+            using (var writer = new StreamWriter(_path + _fileName))
             {
                 WriteToFile(writer);
             }
 
-            using (var writer = new StreamWriter($"{path}{DateTime.UtcNow:yyyyMMdd-hhmm}.txt"))
+            using (var writer = new StreamWriter($"{_path}{DateTime.UtcNow:yyyyMMdd-HHmm}.txt"))
             {
                 WriteToFile(writer);
             }
