@@ -12,7 +12,7 @@ namespace NetcoinLib.Services
         {
             this.repository = repository;
         }
-        public bool CreateCustomer(string Name, string LegalId, string Area = null, string Address = null, string PostalCode = null)
+        public bool CreateCustomer(string Name, string LegalId, string Area, string Address, string PostalCode, string City, string Country, string PhoneNumber)
         {
             try
             {
@@ -29,11 +29,14 @@ namespace NetcoinLib.Services
                     Area = Area,
                     Address = Address,
                     PostalCode = PostalCode,
+                    City = City,
+                    Country = Country,
+                    PhoneNumber = PhoneNumber,
                     Accounts = new List<Account>()
                 };
                 // TODO Replace transaction account with real CreateAccount once method is made
-                Account transaction = new Account { Balance = 0, Customer = customer };
-                customer.Accounts.Add(transaction);
+                Account transactionAccount = new Account { Balance = 0, Customer = customer };
+                customer.Accounts.Add(transactionAccount);
                 repository.GetCustomers().Add(customer);
                 return true;
             }
