@@ -41,8 +41,19 @@ namespace NetcoinCLI
                     case "1":
                         Console.Write("\nSök efter kund genom att skriva in namn på kund eller postort som kunden bor på: ");
                         var searchString = Console.ReadLine();
-                        //TODO Add a service to search after customer.
-                        Console.WriteLine("Kund hittad");
+                        var resultListFromSearch = _bankSystem.GetCustomerByNameOrArea(searchString);
+                        if (resultListFromSearch.Count != 0)
+                        {
+                            foreach (var customer in resultListFromSearch)
+                            {
+                                Console.WriteLine($"");
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Sökning hittade inga resultat.");
+                        }
+                        
                         break;
 
                     case "2":
