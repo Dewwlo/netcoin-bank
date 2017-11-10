@@ -16,6 +16,11 @@ namespace NetcoinUnitTests.Repositories
             return _accounts;
         }
 
+        public void ReadSerializedData(string fileName)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<Customer> GetCustomers()
         {
             return _customers;
