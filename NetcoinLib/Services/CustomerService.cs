@@ -47,8 +47,8 @@ namespace NetcoinLib.Services
             }
             
         }
-        public void GetCustomer(string search)
-        {
+
+        public void GetCustomer(string search) { }
 
         public List<Customer> SearchAfterCustomerWithAreaOrName(string search)
         {
@@ -58,7 +58,7 @@ namespace NetcoinLib.Services
             }
             else
             {
-                return _context.GetCustomers().Where((c => c.Area.Contains(search) || c.Name.Contains(search))).ToList();
+                return repository.GetCustomers().Where((c => c.Area.Contains(search) || c.Name.Contains(search))).ToList();
             }            
         }
     }
