@@ -15,7 +15,7 @@ namespace NetcoinUnitTests
 
             INetcoinRepository repository = new FakeNetcoinRepository();
             CustomerService cService = new CustomerService(repository);
-            cService.CreateCustomer("John Doe", "101112-1234", "Testington", "Main St 1", "12312");
+            cService.CreateCustomer("John Doe", "101112-1234", "Stockholms Län", "Gustav Adolfs Torg 1", "12312", "Stockholm", "Sverige", "070-123 123 123");
             Customer customer = repository.GetCustomers().Find(x => x.LegalId == "101112-1234");
             AccountService sut = new AccountService(repository);
             
