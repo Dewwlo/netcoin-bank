@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NetcoinDbLib;
+using NetcoinLib;
 
 namespace NetcoinCLI
 {
@@ -6,10 +7,8 @@ namespace NetcoinCLI
     {
         static void Main(string[] args)
         {
-            var menu = new Menu();
-            menu.ShowBankLogo();
-            menu.ShowMenu();
-            menu.MenuSelection();           
+            var menu = new Menu(new BankSystem(SerializationRepository.Instance));
+            menu.MenuSelection(args);           
         }
     }
 }
