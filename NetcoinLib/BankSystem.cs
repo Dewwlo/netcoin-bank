@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NetcoinLib.Models;
+using NetcoinLib.Services;
 
 namespace NetcoinLib
 {
@@ -12,9 +13,11 @@ namespace NetcoinLib
         public decimal TotalBalance { get; set; }
 
         private readonly INetcoinRepository _netcoinRepository;
-        public BankSystem(INetcoinRepository netcoinRepository)
+        private CustomerService _customerService;
+        public BankSystem(INetcoinRepository netcoinRepository, CustomerService customerService)
         {
             _netcoinRepository = netcoinRepository;
+            _customerService = customerService;
         }
 
         public void ReadTextFile(string fileName) => _netcoinRepository.ReadSerializedData(fileName);
@@ -27,5 +30,7 @@ namespace NetcoinLib
             Accounts = _netcoinRepository.GetAccounts();
             TotalBalance = Accounts.Sum(a => a.Balance);
         }
+
+        public List<Customer> GetCustomerByNameOrArea(string search) => _customerService.SearchAfterCustomerWithAreaOrName(search);
     }
 }
