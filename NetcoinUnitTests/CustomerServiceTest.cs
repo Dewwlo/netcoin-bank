@@ -1,4 +1,5 @@
 ﻿using NetcoinLib;
+using NetcoinLib.Models;
 using NetcoinLib.Services;
 using NetcoinUnitTests.Models;
 using NetcoinUnitTests.Repositories;
@@ -33,6 +34,12 @@ namespace NetcoinUnitTests
             CustomerService sut = new CustomerService(fakeProvider);
             var result = sut.SearchAfterCustomerWithAreaOrName("Name");
             Assert.Equal(fakeProvider.GetCustomers().Count, result.Count);
+        }
+
+        [Fact]
+        public void CustomerSearchByCustomerId()
+        {
+
         }
     }
 }
