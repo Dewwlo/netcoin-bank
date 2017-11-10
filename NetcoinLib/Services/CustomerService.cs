@@ -44,7 +44,7 @@ namespace NetcoinLib.Services
                 repository.GetCustomers().Add(customer);
                 return true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
