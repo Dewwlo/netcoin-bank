@@ -44,9 +44,11 @@ namespace NetcoinCLI
                         var resultListFromSearch = _bankSystem.GetCustomerByNameOrArea(searchString);
                         if (resultListFromSearch.Count != 0)
                         {
+                            var counter = 0;
                             foreach (var customer in resultListFromSearch)
                             {
-                                Console.WriteLine($"");
+                                counter++;
+                                Console.WriteLine($"{counter}. KundID: {customer.CustomerId}, Namn: {customer.Name}, Postort: {customer.Area}");
                             }
                         }
                         else
