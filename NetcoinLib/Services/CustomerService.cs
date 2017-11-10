@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace NetcoinLib.Services
 {
@@ -53,6 +54,16 @@ namespace NetcoinLib.Services
         public void GetCustomer(string search)
         {
 
+        public List<Customer> SearchAfterCustomerWithAreaOrName(string search)
+        {
+            if (search == "")
+            {
+                return new List<Customer>();
+            }
+            else
+            {
+                return _context.GetCustomers().Where((c => c.Area.Contains(search) || c.Name.Contains(search))).ToList();
+            }            
         }
     }
 }
