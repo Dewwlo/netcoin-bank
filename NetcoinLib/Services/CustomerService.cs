@@ -21,7 +21,10 @@ namespace NetcoinLib.Services
             {
                 return new List<Customer>();
             }
-            return _context.GetCustomers().Where((c => c.Area.Contains(search) || c.Name.Contains(search))).ToList();
+            else
+            {
+                return _context.GetCustomers().Where((c => c.Area.Contains(search) || c.Name.Contains(search))).ToList();
+            }            
         }
     }
 }
