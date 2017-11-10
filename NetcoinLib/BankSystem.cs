@@ -14,10 +14,10 @@ namespace NetcoinLib
 
         private readonly INetcoinRepository _netcoinRepository;
         private CustomerService _customerService;
-        public BankSystem(INetcoinRepository netcoinRepository, CustomerService customerService)
+        public BankSystem(INetcoinRepository netcoinRepository)
         {
             _netcoinRepository = netcoinRepository;
-            _customerService = customerService;
+            _customerService = new CustomerService(_netcoinRepository);
         }
 
         public void ReadTextFile(string fileName) => _netcoinRepository.ReadSerializedData(fileName);

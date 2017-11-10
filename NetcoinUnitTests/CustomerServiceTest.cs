@@ -1,4 +1,5 @@
 ﻿using NetcoinLib;
+using NetcoinLib.Models;
 using NetcoinLib.Services;
 using NetcoinUnitTests.Models;
 using NetcoinUnitTests.Repositories;
