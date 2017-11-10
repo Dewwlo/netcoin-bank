@@ -17,6 +17,10 @@ namespace NetcoinLib.Services
 
         public List<Customer> SearchAfterCustomerWithAreaOrName(string search)
         {
+            if (search == "")
+            {
+                return new List<Customer>();
+            }
             return _context.GetCustomers().Where((c => c.Area.Contains(search) || c.Name.Contains(search))).ToList();
         }
     }
