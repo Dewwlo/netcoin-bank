@@ -32,5 +32,23 @@ namespace NetcoinLib
         }
 
         public List<Customer> GetCustomerByNameOrArea(string search) => _customerService.SearchAfterCustomerWithAreaOrName(search);
+
+        public void WithdrawFromAccount(int accountId, decimal amountToWithdraw)
+        {
+            Account account = Accounts.SingleOrDefault(x => x.AccountId == accountId);
+            if (account != null)
+            {
+                if (account.Balance < amountToWithdraw)
+                    throw new InvalidOperationException("The account balance is less than the amount attempted to withdraw.");
+                else if (amountToWithdraw < 0.1M)
+                    throw new ArgumentOutOfRangeException("The amount to withdraw must be greater than 0.1.");
+                else
+                    account.Balance = account.Balance - amountToWithdraw;
+            }
+            else
+            {
+                throw new NullReferenceException("Account not found.");
+            }
+        }
     }
 }
