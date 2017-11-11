@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace NetcoinLib.Models
 {
@@ -16,6 +15,8 @@ namespace NetcoinLib.Models
         public string Country { get; set; }
         public string PhoneNumber { get; set; }
         public ICollection<Account> Accounts { get; set; }
-        public bool CanDelete => throw new NotImplementedException();
+        public bool CanDelete {
+            get { return Accounts.Sum(x => x.Balance) == 0M; }
+        }
     }
 }

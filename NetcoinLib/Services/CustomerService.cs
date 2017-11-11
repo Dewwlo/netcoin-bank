@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace NetcoinLib.Services
 {
@@ -64,6 +63,24 @@ namespace NetcoinLib.Services
             {
                 return repository.GetCustomers().Where((c => c.Area.Contains(search) || c.Name.Contains(search))).ToList();
             }            
+        }
+
+        public bool RemoveCustomer(Customer customer)
+        {
+            if (customer.CanDelete)
+            {
+                foreach (Account account in customer.Accounts)
+                {
+                    repository.GetAccounts().Remove(account);
+                }
+
+                repository.GetCustomers().Remove(customer);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
