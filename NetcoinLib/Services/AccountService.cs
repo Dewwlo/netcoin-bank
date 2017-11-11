@@ -53,5 +53,25 @@ namespace NetcoinLib.Services
             Customer customer = repository.GetCustomers().Find(x => x.CustomerId == customerId);
             return CreateAccount(customer);
         }
+
+        public bool TransferMoneyBetweenAccounts(int fromAccountId, int toAccountId, decimal amount)
+        {
+            var fromAccount = repository.GetAccounts().SingleOrDefault(a => a.AccountId == fromAccountId);
+            var toAccount = repository.GetAccounts().SingleOrDefault(a => a.AccountId == toAccountId);
+
+            if (ValidateTransfer(amount, fromAccount, toAccount))
+            {
+                fromAccount.Balance -= amount;
+                toAccount.Balance += amount;
+                return true;
+            }
+                    
+            return false;
+        }
+
+        private bool ValidateTransfer(decimal amount, Account fromAccount, Account toAccount)
+        {
+            return fromAccount != null && toAccount != null && (amount >= 0.1M && amount >= fromAccount.Balance);
+        }
     }
 }
