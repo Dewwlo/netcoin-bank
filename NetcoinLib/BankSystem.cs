@@ -35,17 +35,19 @@ namespace NetcoinLib
 
         public void WithdrawFromAccount(int accountId, decimal amountToWithdraw)
         {
-            Account account = _netcoinRepository.GetAccounts().SingleOrDefault(x => x.AccountId == accountId);
+            Account account = Accounts.SingleOrDefault(x => x.AccountId == accountId);
             if (account != null)
             {
-                if (account.Balance >= amountToWithdraw && amountToWithdraw > 0.1M)
-                    account.Balance = account.Balance - amountToWithdraw;
+                if (account.Balance < amountToWithdraw)
+                    throw new InvalidOperationException("The account balance is less than the amount attempted to withdraw.");
+                else if (amountToWithdraw > 0.1M)
+                    throw new ArgumentOutOfRangeException("It's not possible to withdraw a negative amount.");
                 else
-                    throw new Exception($"Negative amount, or not enough balance ({ account.Balance }) in account with ID { accountId } in order to withdraw { amountToWithdraw }");
+                    account.Balance = account.Balance - amountToWithdraw;
             }
             else
             {
-                throw new NullReferenceException();
+                throw new NullReferenceException("Account not found.");
             }
         }
     }
