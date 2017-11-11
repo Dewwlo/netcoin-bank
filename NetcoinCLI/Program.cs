@@ -8,8 +8,6 @@ namespace NetcoinCLI
         static void Main(string[] args)
         {
             var menu = new Menu(new BankSystem(SerializationRepository.Instance));
-            menu.ShowBankLogo();
-            menu.ShowMenu();
             menu.MenuSelection(args);           
         }
     }

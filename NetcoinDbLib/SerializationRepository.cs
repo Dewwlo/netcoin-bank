@@ -99,19 +99,27 @@ namespace NetcoinDbLib
                 Area = substrings[5],
                 PostalCode = substrings[6],
                 Country = substrings[7],
-                PhoneNumber = substrings[8]
+                PhoneNumber = substrings[8],
+                Accounts = new List<Account>()
             });
         }
         private void ReadAccount(string account)
         {
             string[] substrings = Regex.Split(account, ";");
-            Accounts.Add(new Account
+            var newAccount = new Account
             {
                 AccountId = Int32.Parse(substrings[0]),
                 CustomerId = Int32.Parse(substrings[1]),
                 Balance = decimal.Parse(substrings[2]),
                 Customer = Customers.SingleOrDefault(c => c.CustomerId == Int32.Parse(substrings[1]))
-            });
+            };
+            
+            Customer customer = Customers.SingleOrDefault(c => c.CustomerId == newAccount.CustomerId);
+            if (customer != null)
+            {
+                Accounts.Add(newAccount);
+                customer.Accounts.Add(newAccount);
+            }
         }
     }
 }

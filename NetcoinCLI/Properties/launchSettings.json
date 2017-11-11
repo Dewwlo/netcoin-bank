@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "NetcoinCLI": {
+      "commandName": "Project",
+      "commandLineArgs": "bankdata.txt bankdata-small.txt"
+    }
+  }
+}

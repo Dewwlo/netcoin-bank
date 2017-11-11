@@ -19,7 +19,10 @@ namespace NetcoinCLI
         public void MenuSelection(string[] args)
         {
             _bankSystem.ReadTextFile(args[0]);
-
+            _bankSystem.Initialize();
+            //ShowBankLogo();
+            ShowCustomerAccountsStatistics();
+            ShowMenu();
             while (isRunning)
             {
                 HandleMenuSelection(Console.ReadLine().ToLower());
@@ -38,8 +41,21 @@ namespace NetcoinCLI
                     case "1":
                         Console.Write("\nSök efter kund genom att skriva in namn på kund eller postort som kunden bor på: ");
                         var searchString = Console.ReadLine();
-                        //TODO Add a service to search after customer.
-                        Console.WriteLine("Kund hittad");
+                        var resultListFromSearch = _bankSystem.GetCustomerByNameOrArea(searchString);
+                        if (resultListFromSearch.Count != 0)
+                        {
+                            var counter = 0;
+                            foreach (var customer in resultListFromSearch)
+                            {
+                                counter++;
+                                Console.WriteLine($"{counter}. KundID: {customer.CustomerId}, Namn: {customer.Name}, Postort: {customer.Area}");
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Sökning hittade inga resultat.");
+                        }
+                        
                         break;
 
                     case "2":
@@ -142,13 +158,17 @@ namespace NetcoinCLI
                               "\n Skriv rensa för att tömma skärmen." +
                               "\n Skriv avsluta för att avsluta programmet.");
         }
+        private void ShowCustomerAccountsStatistics()
+        {
+            Console.WriteLine($"Läser in bankdata.txt..." +
+                              $"\n Antal kunder: {_bankSystem.Customers.Count} " +
+                              $"\n Antal konton: {_bankSystem.Accounts.Count} " +
+                              $"\n Totalt saldo: {_bankSystem.TotalBalance}"); 
+        }
 
         public void ShowBankLogo()
         {
-            Console.WriteLine($"Läser in bankdata.txt..." +
-                              $"\n Antal kunder: {1} " +
-                              $"\n Antal konton: {2} " +
-                              $"\n Totalt saldo: {3}");
+
             //TODO If there is time, fix ASCII art.
             //Console.WriteLine(" _   _  _____  _____  _____  _____  _____  _   _ ______   ___   _   _  _   __");
             //Console.WriteLine("| \\ | || ___ || _   _ |/ __ \\| _ || _   _ || \\ | || ___ \\ / _ \\ | \\ | || | / /");
