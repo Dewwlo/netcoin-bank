@@ -26,11 +26,6 @@ namespace NetcoinUnitTests.Repositories
             return _customers;
         }
 
-        public void ReadSerializedData(string fileName)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Save()
         { }
     }
