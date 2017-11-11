@@ -13,11 +13,13 @@ namespace NetcoinLib
         public decimal TotalBalance { get; set; }
 
         private readonly INetcoinRepository _netcoinRepository;
-        private CustomerService _customerService;
+        private readonly CustomerService _customerService;
+        private readonly AccountService _accountService;
         public BankSystem(INetcoinRepository netcoinRepository)
         {
             _netcoinRepository = netcoinRepository;
             _customerService = new CustomerService(_netcoinRepository);
+            _accountService = new AccountService(_netcoinRepository);
         }
 
         public void ReadTextFile(string fileName) => _netcoinRepository.ReadSerializedData(fileName);
@@ -32,5 +34,8 @@ namespace NetcoinLib
         }
 
         public List<Customer> GetCustomerByNameOrArea(string search) => _customerService.SearchAfterCustomerWithAreaOrName(search);
+
+        public bool TransferMoneyBetweenAccounts(int toAccountId, int fromAccountId, decimal amount) =>
+            _accountService.TransferMoneyBetweenAccounts(toAccountId, fromAccountId, amount);
     }
 }
