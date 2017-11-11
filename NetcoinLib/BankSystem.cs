@@ -40,8 +40,8 @@ namespace NetcoinLib
             {
                 if (account.Balance < amountToWithdraw)
                     throw new InvalidOperationException("The account balance is less than the amount attempted to withdraw.");
-                else if (amountToWithdraw > 0.1M)
-                    throw new ArgumentOutOfRangeException("It's not possible to withdraw a negative amount.");
+                else if (amountToWithdraw < 0.1M)
+                    throw new ArgumentOutOfRangeException("The amount to withdraw must be greater than 0.1.");
                 else
                     account.Balance = account.Balance - amountToWithdraw;
             }
