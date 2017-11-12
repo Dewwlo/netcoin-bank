@@ -58,5 +58,20 @@ namespace NetcoinUnitTests
             //Assert.Throws<ArgumentOutOfRangeException>(() => sut.WithdrawFromAccount(1, -1M));
             //Assert.Throws<NullReferenceException>(() => sut.WithdrawFromAccount(100, 1M));
         }
+
+        [Fact]
+        public void CetCustomerByCustomerId()
+        {
+            NetcoinRepoRepresentation representation = NetcoinRepositoryUtility.CreateSampleCustomersAndAccounts(5);
+            INetcoinRepository fakeProvider = new FakeNetcoinRepository();
+            fakeProvider.GetCustomers().AddRange(representation.Customers);
+            BankSystem sut = new BankSystem(fakeProvider);
+            sut.Initialize();
+
+            var result1 = sut.GetCustomerById("1");
+
+            Assert.Throws<NullReferenceException>(() => sut.GetCustomerById("0"));
+            Assert.Equal(1, result1.CustomerId);
+        }
     }
 }

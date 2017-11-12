@@ -25,7 +25,7 @@ namespace NetcoinUnitTests
         {
             CustomerService sut = new CustomerService(_repository);
             string legalId = "101112-1234";
-            bool result = sut.CreateCustomer("John Doe", legalId, "Stockholms Län", "Gustav Adolfs Torg 1", "12312", "Stockholm", "Sverige","070-123 123 123");
+            bool result = sut.CreateCustomer("John Doe", legalId, "Stockholms Län", "Gustav Adolfs Torg 1", "12312", "Stockholm", "Sverige", "070-123 123 123");
             Assert.True(result);
             Customer customer = _repository.GetCustomers()[0];
             Assert.Equal(legalId, customer.LegalId);
@@ -39,6 +39,17 @@ namespace NetcoinUnitTests
             CustomerService sut = new CustomerService(_repository);
             var result = sut.SearchAfterCustomerWithAreaOrName("Name");
             Assert.Equal(_repository.GetCustomers().Count, result.Count);
+        }
+
+        [Fact]
+        public void CustomerSearchByCustomerId()
+        {
+            NetcoinRepoRepresentation representation = NetcoinRepositoryUtility.CreateSampleCustomersAndAccounts(5);
+            INetcoinRepository fakeProvider = new FakeNetcoinRepository();
+            fakeProvider.GetCustomers().AddRange(representation.Customers);
+            CustomerService sut = new CustomerService(fakeProvider);
+            var result = sut.GetCustomerByCustomerId("1");
+            Assert.Equal(1, result.CustomerId);
         }
 
         [Fact]
