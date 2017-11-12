@@ -1,5 +1,6 @@
 ﻿using NetcoinLib.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace NetcoinLib.Services
@@ -11,7 +12,20 @@ namespace NetcoinLib.Services
         {
             this.repository = repository;
         }
-
+        private List<Account> Accounts
+        {
+            get
+            {
+                return repository.GetAccounts();
+            }
+        }
+        private List<Customer> Customers
+        {
+            get
+            {
+                return repository.GetCustomers();
+            }
+        }
         /// <summary>
         /// Creates an account tied to a specific Customer
         /// </summary>
@@ -34,7 +48,7 @@ namespace NetcoinLib.Services
                     AccountId = highId + 1
                 };
 
-                repository.GetAccounts().Add(account);
+                Accounts.Add(account);
                 customer.Accounts.Add(account);
                 return true;
             }
@@ -51,7 +65,7 @@ namespace NetcoinLib.Services
         /// <returns>True if creation is successful, otherwise false</returns>
         public bool CreateAccount(int customerId)
         {
-            Customer customer = repository.GetCustomers().Find(x => x.CustomerId == customerId);
+            Customer customer = Customers.Find(x => x.CustomerId == customerId);
             return CreateAccount(customer);
         }
 
@@ -59,7 +73,7 @@ namespace NetcoinLib.Services
         {
             if (account.CanDelete)
             {
-                repository.GetAccounts().Remove(account);
+                Accounts.Remove(account);
                 account.Customer.Accounts.Remove(account);
                 return true;
             }
@@ -68,11 +82,43 @@ namespace NetcoinLib.Services
                 return false;
             }
         }
+        /// <summary>
+        /// Withdraws an amount from a provided account
+        /// </summary>
+        /// <param name="accountId">The Id of the withdraw account</param>
+        /// <param name="amountToWithdraw">The sum to be withdrawn</param>
+        public void Withdraw(int accountId, decimal amountToWithdraw)
+        {
+            Account account = Accounts.SingleOrDefault(x => x.AccountId == accountId);
+            if (account == null)
+                throw new NullReferenceException("Account not found.");
+            if (account.Balance < amountToWithdraw)
+                throw new InvalidOperationException("The account balance is less than the amount attempted to withdraw.");
+            if (amountToWithdraw < 0.1M)
+                throw new ArgumentOutOfRangeException("The amount to withdraw must be greater than 0.1.");
+
+            account.Balance = account.Balance - amountToWithdraw;
+        }
+        /// <summary>
+        /// Deposits an amount to a provided account
+        /// </summary>
+        /// <param name="accountId">The account to deposit to</param>
+        /// <param name="amountToDeposit">The amount to deposit</param>
+        public void Deposit(int accountId, decimal amountToDeposit)
+        {
+            Account account = Accounts.SingleOrDefault(x => x.AccountId == accountId);
+            if (account == null)
+                throw new NullReferenceException("Account not found.");
+            if (amountToDeposit < 0.1M)
+                throw new ArgumentOutOfRangeException("The amount to deposit must be greater than 0.1.");
+
+            account.Balance = account.Balance + amountToDeposit;
+        }
 
         public void TransferMoneyBetweenAccounts(int fromAccountId, int toAccountId, decimal amount)
         {
-            var fromAccount = repository.GetAccounts().SingleOrDefault(a => a.AccountId == fromAccountId);
-            var toAccount = repository.GetAccounts().SingleOrDefault(a => a.AccountId == toAccountId);
+            var fromAccount = Accounts.SingleOrDefault(a => a.AccountId == fromAccountId);
+            var toAccount = Accounts.SingleOrDefault(a => a.AccountId == toAccountId);
 
             if (ValidateAccounts(fromAccount, toAccount) != true)
                 throw new NullReferenceException("Account not found.");
