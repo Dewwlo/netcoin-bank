@@ -51,7 +51,17 @@ namespace NetcoinLib.Services
             
         }
 
-        public void GetCustomer(string search) { }
+        public Customer GetCustomerByCustomerId(string search)
+        {
+            if (search == "")
+            {
+                return new Customer();
+            }
+            else
+            {
+                return repository.GetCustomers().FirstOrDefault(c=> search == c.CustomerId.ToString());
+            }
+        }
 
         public List<Customer> SearchAfterCustomerWithAreaOrName(string search)
         {
