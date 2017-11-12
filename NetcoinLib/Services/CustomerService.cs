@@ -12,6 +12,20 @@ namespace NetcoinLib.Services
         {
             this.repository = repository;
         }
+        private List<Customer> Customers
+        {
+            get
+            {
+                return repository.GetCustomers();
+            }
+        }
+        private List<Account> Accounts
+        {
+            get
+            {
+                return repository.GetAccounts();
+            }
+        }
         public bool CreateCustomer(string Name, string LegalId, string Area, string Address, string PostalCode, string City, string Country, string PhoneNumber)
         {
             try
@@ -39,7 +53,7 @@ namespace NetcoinLib.Services
                 var result = aService.CreateAccount(customer);
 
                 if (result)
-                    repository.GetCustomers().Add(customer);
+                    Customers.Add(customer);
                 
                 return result;
             }
@@ -58,7 +72,7 @@ namespace NetcoinLib.Services
             }
             else
             {
-                return repository.GetCustomers().FirstOrDefault(c=> search == c.CustomerId.ToString());
+                return Customers.FirstOrDefault(c=> search == c.CustomerId.ToString());
             }
         }
 
@@ -70,7 +84,7 @@ namespace NetcoinLib.Services
             }
             else
             {
-                return repository.GetCustomers().Where((c => c.Area.Contains(search) || c.Name.Contains(search))).ToList();
+                return Customers.Where((c => c.Area.Contains(search) || c.Name.Contains(search))).ToList();
             }            
         }
 
@@ -80,10 +94,10 @@ namespace NetcoinLib.Services
             {
                 foreach (Account account in customer.Accounts)
                 {
-                    repository.GetAccounts().Remove(account);
+                    Accounts.Remove(account);
                 }
 
-                repository.GetCustomers().Remove(customer);
+                Customers.Remove(customer);
                 return true;
             }
             else
