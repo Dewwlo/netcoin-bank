@@ -35,27 +35,30 @@ namespace NetcoinLib
 
         public List<Customer> GetCustomerByNameOrArea(string search) => _customerService.SearchAfterCustomerWithAreaOrName(search);
 
-        public void WithdrawFromAccount(int accountId, decimal amountToWithdraw)
+        public string WithdrawFromAccount(int accountId, decimal amountToWithdraw)
         {
-            Account account = Accounts.SingleOrDefault(x => x.AccountId == accountId);
-            if (account == null)
-                throw new NullReferenceException("Account not found.");
-            if (account.Balance < amountToWithdraw)
-                throw new InvalidOperationException("The account balance is less than the amount attempted to withdraw.");
-            if (amountToWithdraw < 0.1M)
-                throw new ArgumentOutOfRangeException("The amount to withdraw must be greater than 0.1.");
-                
-            account.Balance = account.Balance - amountToWithdraw;
+            try
+            {
+                _accountService.Withdraw(accountId, amountToWithdraw);
+                return $"Withdrew {amountToWithdraw} from {accountId}";
+            }
+            catch (Exception e)
+            {
+                return e.Message;
+            }            
         }
-        public void DepositToAccount(int accountId, decimal amountToDeposit)
-        {
-            Account account = Accounts.SingleOrDefault(x => x.AccountId == accountId);
-            if (account == null)
-                throw new NullReferenceException("Account not found.");
-            if (amountToDeposit < 0.1M)
-                throw new ArgumentOutOfRangeException("The amount to deposit must be greater than 0.1.");
 
-            account.Balance = account.Balance + amountToDeposit;
+        public string DepositToAccount(int accountId, decimal amountToDeposit)
+        {
+            try
+            {
+                _accountService.Deposit(accountId, amountToDeposit);
+                return $"Deposited {amountToDeposit} to {accountId}";
+            }
+            catch (Exception e)
+            {
+                return e.Message;
+            }            
         }
 
         public bool TransferMoneyBetweenAccounts(int toAccountId, int fromAccountId, decimal amount) =>
