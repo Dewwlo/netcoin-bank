@@ -31,6 +31,19 @@ namespace NetcoinLib
             TotalBalance = Accounts.Sum(a => a.Balance);
         }
 
+        public Customer GetCustomerById(string search)
+        {
+            var result = _customerService.GetCustomerByCustomerId(search);
+            if (result != null || result.CustomerId != 0)
+            {
+                return result;
+            }
+            else
+            {
+                throw new NullReferenceException("Kund id:et du söker finns inte.");
+            }
+        }
+
         public List<Customer> GetCustomerByNameOrArea(string search) => _customerService.SearchAfterCustomerWithAreaOrName(search);
 
         public void WithdrawFromAccount(int accountId, decimal amountToWithdraw)
