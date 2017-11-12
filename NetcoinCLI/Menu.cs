@@ -60,8 +60,21 @@ namespace NetcoinCLI
 
                     case "2":
                         Console.Write("\nSkriv in kundnummer för att få kundbild: ");
-                        customerId = int.Parse(Console.ReadLine());
-                        //TODO Add a service to get customer info.
+                        var result = _bankSystem.GetCustomerById(Console.ReadLine());
+                        Console.WriteLine($"KundId: {result.CustomerId}\n" +
+                            $"Namn: {result.Name}\n" +
+                            $"Organisationsnummer: {result.LegalId}\n" +
+                            $"Adress: {result.Address}\n" +
+                            $"Postnummer: {result.PostalCode}\n" +
+                            $"Område: {result.Area}\n" +
+                            $"Stad: {result.City}\n" +
+                            $"Land: {result.Country}\n" +
+                            $"Telefonnummer: {result.PhoneNumber}\n\n" +
+                            $"Konton:\n");
+                        foreach (var account in result.Accounts)
+                        {
+                            Console.WriteLine($"{account.AccountId}: {account.Balance} kr");
+                        }
                         break;
 
                     case "3":
