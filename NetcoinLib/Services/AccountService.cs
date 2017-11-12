@@ -48,7 +48,7 @@ namespace NetcoinLib.Services
                     AccountId = highId + 1
                 };
 
-                repository.GetAccounts().Add(account);
+                Accounts.Add(account);
                 customer.Accounts.Add(account);
                 return true;
             }
@@ -65,7 +65,7 @@ namespace NetcoinLib.Services
         /// <returns>True if creation is successful, otherwise false</returns>
         public bool CreateAccount(int customerId)
         {
-            Customer customer = repository.GetCustomers().Find(x => x.CustomerId == customerId);
+            Customer customer = Customers.Find(x => x.CustomerId == customerId);
             return CreateAccount(customer);
         }
 
@@ -73,7 +73,7 @@ namespace NetcoinLib.Services
         {
             if (account.CanDelete)
             {
-                repository.GetAccounts().Remove(account);
+                Accounts.Remove(account);
                 account.Customer.Accounts.Remove(account);
                 return true;
             }
