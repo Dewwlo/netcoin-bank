@@ -55,6 +55,20 @@ namespace NetcoinLib.Services
             return CreateAccount(customer);
         }
 
+        public bool RemoveAccount(Account account)
+        {
+            if (account.CanDelete)
+            {
+                repository.GetAccounts().Remove(account);
+                account.Customer.Accounts.Remove(account);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public bool TransferMoneyBetweenAccounts(int fromAccountId, int toAccountId, decimal amount)
         {
             var fromAccount = repository.GetAccounts().SingleOrDefault(a => a.AccountId == fromAccountId);

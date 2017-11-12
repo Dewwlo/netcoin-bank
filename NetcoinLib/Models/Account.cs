@@ -10,6 +10,8 @@ namespace NetcoinLib.Models
         public int CustomerId { get; set; }
         public Customer Customer { get; set; }
         public decimal Balance { get; set; }
-        public bool CanDelete => throw new NotImplementedException();
+        public bool CanDelete {
+            get { return Balance == 0 && Customer?.Accounts?.Count > 1; }
+        }
     }
 }

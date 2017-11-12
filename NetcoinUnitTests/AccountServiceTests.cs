@@ -3,6 +3,7 @@ using NetcoinLib;
 using NetcoinLib.Models;
 using NetcoinLib.Services;
 using NetcoinUnitTests.Repositories;
+using NetcoinUnitTests.Utilities;
 using Xunit;
 
 namespace NetcoinUnitTests
@@ -30,6 +31,24 @@ namespace NetcoinUnitTests
 
             result = sut.CreateAccount(customer.CustomerId);
             Assert.True(result);
+        }
+
+        [Fact]
+        public void DeleteAccountValidatesAndRemoves()
+        {
+            //Assemble
+            var setupData = NetcoinRepositoryUtility.CreateSampleCustomersAndAccounts(1, 100M);
+            _repository.GetAccounts().AddRange(setupData.Accounts);
+            Account account1 = setupData.Accounts[0];
+            Account account2 = setupData.Accounts[1];
+            AccountService sut = new AccountService(_repository);
+
+            //Act & assert
+            Assert.False(sut.RemoveAccount(account1));
+            account1.Balance = 0M;
+            Assert.True(sut.RemoveAccount(account1));
+            Assert.False(sut.RemoveAccount(account2));
+            Assert.True(setupData.Customers[0].Accounts.Count == 1 && _repository.GetAccounts().Count == 1);
         }
 
         [Fact]
