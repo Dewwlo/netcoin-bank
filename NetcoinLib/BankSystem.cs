@@ -38,19 +38,14 @@ namespace NetcoinLib
         public void WithdrawFromAccount(int accountId, decimal amountToWithdraw)
         {
             Account account = Accounts.SingleOrDefault(x => x.AccountId == accountId);
-            if (account != null)
-            {
-                if (account.Balance < amountToWithdraw)
-                    throw new InvalidOperationException("The account balance is less than the amount attempted to withdraw.");
-                else if (amountToWithdraw < 0.1M)
-                    throw new ArgumentOutOfRangeException("The amount to withdraw must be greater than 0.1.");
-                else
-                    account.Balance = account.Balance - amountToWithdraw;
-            }
-            else
-            {
+            if (account == null)
                 throw new NullReferenceException("Account not found.");
-            }
+            if (account.Balance < amountToWithdraw)
+                throw new InvalidOperationException("The account balance is less than the amount attempted to withdraw.");
+            if (amountToWithdraw < 0.1M)
+                throw new ArgumentOutOfRangeException("The amount to withdraw must be greater than 0.1.");
+                
+            account.Balance = account.Balance - amountToWithdraw;
         }
         public void DepositToAccount(int accountId, decimal amountToDeposit)
         {
