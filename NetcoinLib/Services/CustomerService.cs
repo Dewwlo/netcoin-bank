@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace NetcoinLib.Services
 {
@@ -35,9 +34,13 @@ namespace NetcoinLib.Services
                     PhoneNumber = PhoneNumber,
                     Accounts = new List<Account>()
                 };
-                // TODO Replace transaction account with real CreateAccount once method is made
-                Account transactionAccount = new Account { Balance = 0, Customer = customer };
-                customer.Accounts.Add(transactionAccount);
+                AccountService aService = new AccountService(repository);
+                bool success = aService.CreateAccount(customer);
+                if (success)
+                {
+                    Account transactionAccount = repository.GetAccounts().Find(x => x.CustomerId == customer.CustomerId);
+                    repository.GetAccounts().Add(transactionAccount);
+                }
                 repository.GetCustomers().Add(customer);
                 return true;
             }
@@ -60,6 +63,24 @@ namespace NetcoinLib.Services
             {
                 return repository.GetCustomers().Where((c => c.Area.Contains(search) || c.Name.Contains(search))).ToList();
             }            
+        }
+
+        public bool RemoveCustomer(Customer customer)
+        {
+            if (customer.CanDelete)
+            {
+                foreach (Account account in customer.Accounts)
+                {
+                    repository.GetAccounts().Remove(account);
+                }
+
+                repository.GetCustomers().Remove(customer);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
