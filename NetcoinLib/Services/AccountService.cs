@@ -53,5 +53,19 @@ namespace NetcoinLib.Services
             Customer customer = repository.GetCustomers().Find(x => x.CustomerId == customerId);
             return CreateAccount(customer);
         }
+
+        public bool RemoveAccount(Account account)
+        {
+            if (account.CanDelete)
+            {
+                repository.GetAccounts().Remove(account);
+                account.Customer.Accounts.Remove(account);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }
