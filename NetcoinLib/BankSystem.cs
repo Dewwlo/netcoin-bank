@@ -35,25 +35,43 @@ namespace NetcoinLib
 
         public List<Customer> GetCustomerByNameOrArea(string search) => _customerService.SearchAfterCustomerWithAreaOrName(search);
 
-        public void WithdrawFromAccount(int accountId, decimal amountToWithdraw)
+        public string WithdrawFromAccount(int accountId, decimal amountToWithdraw)
         {
-            Account account = Accounts.SingleOrDefault(x => x.AccountId == accountId);
-            if (account != null)
+            try
             {
-                if (account.Balance < amountToWithdraw)
-                    throw new InvalidOperationException("The account balance is less than the amount attempted to withdraw.");
-                else if (amountToWithdraw < 0.1M)
-                    throw new ArgumentOutOfRangeException("The amount to withdraw must be greater than 0.1.");
-                else
-                    account.Balance = account.Balance - amountToWithdraw;
+                _accountService.Withdraw(accountId, amountToWithdraw);
+                return $"Withdrew {amountToWithdraw} from {accountId}";
             }
-            else
+            catch (Exception e)
             {
-                throw new NullReferenceException("Account not found.");
-            }
+                return e.Message;
+            }            
         }
 
-        public void TransferMoneyBetweenAccounts(int fromAccountId, int toAccountId, decimal amount) =>
-            _accountService.TransferMoneyBetweenAccounts(fromAccountId, toAccountId, amount);
+        public string DepositToAccount(int accountId, decimal amountToDeposit)
+        {
+            try
+            {
+                _accountService.Deposit(accountId, amountToDeposit);
+                return $"Deposited {amountToDeposit} to {accountId}";
+            }
+            catch (Exception e)
+            {
+                return e.Message;
+            }            
+        }
+
+        public bool TransferMoneyBetweenAccounts(int fromAccountId, int toAccountId, decimal amount)
+        {
+            try
+            {
+                _accountService.TransferMoneyBetweenAccounts(fromAccountId, toAccountId, amount);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }            
+        }
     }
 }
