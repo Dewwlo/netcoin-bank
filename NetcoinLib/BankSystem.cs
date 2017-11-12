@@ -61,7 +61,7 @@ namespace NetcoinLib
             }            
         }
 
-        public bool TransferMoneyBetweenAccounts(int toAccountId, int fromAccountId, decimal amount) =>
-            _accountService.TransferMoneyBetweenAccounts(toAccountId, fromAccountId, amount);
+        public void TransferMoneyBetweenAccounts(int fromAccountId, int toAccountId, decimal amount) =>
+            _accountService.TransferMoneyBetweenAccounts(fromAccountId, toAccountId, amount);
     }
 }

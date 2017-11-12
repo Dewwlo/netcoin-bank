@@ -115,24 +115,28 @@ namespace NetcoinLib.Services
             account.Balance = account.Balance + amountToDeposit;
         }
 
-        public bool TransferMoneyBetweenAccounts(int fromAccountId, int toAccountId, decimal amount)
+        public void TransferMoneyBetweenAccounts(int fromAccountId, int toAccountId, decimal amount)
         {
             var fromAccount = Accounts.SingleOrDefault(a => a.AccountId == fromAccountId);
             var toAccount = Accounts.SingleOrDefault(a => a.AccountId == toAccountId);
 
-            if (ValidateTransfer(amount, fromAccount, toAccount))
-            {
-                fromAccount.Balance -= amount;
-                toAccount.Balance += amount;
-                return true;
-            }
-                    
-            return false;
+            if (ValidateAccounts(fromAccount, toAccount) != true)
+                throw new NullReferenceException("Account not found.");
+            if (ValidateTransferAmount(amount, fromAccount) != true)
+                throw new InvalidOperationException("Transfer failed. Make sure amount transferred is available on account.");
+
+            fromAccount.Balance -= amount;
+            toAccount.Balance += amount;
         }
 
-        private bool ValidateTransfer(decimal amount, Account fromAccount, Account toAccount)
+        private bool ValidateTransferAmount(decimal amount, Account fromAccount)
         {
-            return fromAccount != null && toAccount != null && (amount >= 0.1M && fromAccount.Balance >= amount);
+           return (amount >= 0.1M && fromAccount.Balance >= amount);
+        }
+
+        private bool ValidateAccounts(Account fromAccount, Account toAccount)
+        {
+            return fromAccount != null && toAccount != null;
         }
     }
 }

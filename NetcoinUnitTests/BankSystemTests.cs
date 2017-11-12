@@ -10,14 +10,19 @@ namespace NetcoinUnitTests
 {
     public class BankSystemTests
     {
+        private readonly INetcoinRepository _repository;
+        public BankSystemTests()
+        {
+            _repository = new FakeNetcoinRepository();
+        }
+
         [Fact]
         public void WithdrawFromAccount()
         {
             //Assemble
             NetcoinRepoRepresentation representation = NetcoinRepositoryUtility.CreateSampleCustomersAndAccounts(5, 100M);
-            INetcoinRepository fakeProvider = new FakeNetcoinRepository();
-            fakeProvider.GetAccounts().AddRange(representation.Accounts);
-            BankSystem sut = new BankSystem(fakeProvider);
+            _repository.GetAccounts().AddRange(representation.Accounts);
+            BankSystem sut = new BankSystem(_repository);
             sut.Initialize();
 
             //Act

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using NetcoinLib;
 using NetcoinLib.Models;
 using NetcoinLib.Services;
@@ -56,24 +57,23 @@ namespace NetcoinUnitTests
         [Fact]
         public void CanTransferMoney()
         {
+            //Assemble
             CustomerService cService = new CustomerService(_repository);
             cService.CreateCustomer("John Doe", "101112-1234", "Stockholms Län", "Gustav Adolfs Torg 1", "12312", "Stockholm", "Sverige", "070-123 123 123");
             cService.CreateCustomer("Jane Doe", "101010-4321", "Stockholms Län", "Gustav Adolfs Torg 1", "12312", "Stockholm", "Sverige", "070-123 123 124");
             var fromAccount = _repository.GetAccounts().FirstOrDefault();
             var toAccount = _repository.GetAccounts().Skip(1).FirstOrDefault();
-            fromAccount.Balance = 1000M;
             AccountService sut = new AccountService(_repository);
 
-            var result = sut.TransferMoneyBetweenAccounts(fromAccount.AccountId, toAccount.AccountId, 500M);
-            Assert.True(result);
+            //Act
+            fromAccount.Balance = 1000M;
+            sut.TransferMoneyBetweenAccounts(fromAccount.AccountId, toAccount.AccountId, 500M);
 
-            result = sut.TransferMoneyBetweenAccounts(fromAccount.AccountId, toAccount.AccountId, 501M);
-            Assert.False(result);
-
-            result = sut.TransferMoneyBetweenAccounts(fromAccount.AccountId, toAccount.AccountId, -501M);
-            Assert.False(result);
-
+            //Act & Assert
             Assert.Equal(fromAccount.Balance, 500);
+            Assert.Throws<InvalidOperationException>(() => sut.TransferMoneyBetweenAccounts(fromAccount.AccountId, toAccount.AccountId, 501M));
+            Assert.Throws<InvalidOperationException>(() => sut.TransferMoneyBetweenAccounts(fromAccount.AccountId, toAccount.AccountId, -501M));
+            Assert.Throws<NullReferenceException>(() => sut.TransferMoneyBetweenAccounts(1,6, 200M));
         }
         [Fact]
         public void WithdrawFromAccount()
