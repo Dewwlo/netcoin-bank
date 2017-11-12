@@ -34,23 +34,5 @@ namespace NetcoinUnitTests
             Assert.Throws<ArgumentOutOfRangeException>(() => sut.WithdrawFromAccount(1, -1M));
             Assert.Throws<NullReferenceException>(() => sut.WithdrawFromAccount(100, 1M));
         }
-
-        [Fact]
-        public void CanTransferMoneyBetweenAccounts()
-        {
-            //Assemble
-            NetcoinRepoRepresentation representation = NetcoinRepositoryUtility.CreateSampleCustomersAndAccounts(2, 100M);
-            _repository.GetAccounts().AddRange(representation.Accounts);
-            BankSystem sut = new BankSystem(_repository);
-            var fromAccount = _repository.GetAccounts().Single(a => a.AccountId == 1);
-            var toAccount = _repository.GetAccounts().Single(a => a.AccountId == 2);
-
-            //Act
-            sut.TransferMoneyBetweenAccounts(fromAccount.AccountId, toAccount.AccountId, 100M);
-
-            //Act & Assert
-            Assert.True(fromAccount.Balance == 0);
-            Assert.Throws<InvalidOperationException>(() => sut.TransferMoneyBetweenAccounts(fromAccount.AccountId, toAccount.AccountId, 1M));
-        }
     }
 }

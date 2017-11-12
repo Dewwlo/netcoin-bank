@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using NetcoinLib;
 using NetcoinLib.Models;
 using NetcoinLib.Services;
@@ -64,15 +65,13 @@ namespace NetcoinUnitTests
 
             //Act
             fromAccount.Balance = 1000M;
-            var result = sut.TransferMoneyBetweenAccounts(fromAccount.AccountId, toAccount.AccountId, 500M);
+            sut.TransferMoneyBetweenAccounts(fromAccount.AccountId, toAccount.AccountId, 500M);
 
             //Act & Assert
-            Assert.True(result);
-            result = sut.TransferMoneyBetweenAccounts(fromAccount.AccountId, toAccount.AccountId, 501M);
-            Assert.False(result);
-            result = sut.TransferMoneyBetweenAccounts(fromAccount.AccountId, toAccount.AccountId, -501M);
-            Assert.False(result);
             Assert.Equal(fromAccount.Balance, 500);
+            Assert.Throws<InvalidOperationException>(() => sut.TransferMoneyBetweenAccounts(fromAccount.AccountId, toAccount.AccountId, 501M));
+            Assert.Throws<InvalidOperationException>(() => sut.TransferMoneyBetweenAccounts(fromAccount.AccountId, toAccount.AccountId, -501M));
+            Assert.Throws<NullReferenceException>(() => sut.TransferMoneyBetweenAccounts(1,6, 200M));
         }
     }
 }
