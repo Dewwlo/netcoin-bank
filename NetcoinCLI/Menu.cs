@@ -34,12 +34,13 @@ namespace NetcoinCLI
             var customerId = 0;
             var accountId = 0;
             var sum = 0;
+            input = input.ToLower();
             try
             {
                 switch (input)
                 {
                     case "1":
-                    case "Sök kund":
+                    case "sök kund":
                         Console.Write("\nSök efter kund genom att skriva in namn på kund eller postort som kunden bor på: ");
                         var searchString = Console.ReadLine();
                         var resultListFromSearch = _bankSystem.GetCustomerByNameOrArea(searchString);
@@ -60,14 +61,14 @@ namespace NetcoinCLI
                         break;
 
                     case "2":
-                    case "Visa kundbild":
+                    case "visa kundbild":
                         Console.Write("\nSkriv in kundnummer för att få kundbild: ");
                         customerId = int.Parse(Console.ReadLine());
                         //TODO Add a service to get customer info.
                         break;
 
                     case "3":
-                    case "Skapa kund":
+                    case "skapa kund":
                         Console.Write("\nFör in uppgifter för att skapa kund: \n\tNamn: ");
                         var name = Console.ReadLine();
                         Console.Write("Personnummer: ");
@@ -82,21 +83,21 @@ namespace NetcoinCLI
                         break;
 
                     case "4":
-                    case "Ta bort kund":
+                    case "ta bort kund":
                         Console.Write("\nSkriv in kundnummer för den du vill radera: ");
                         customerId = int.Parse(Console.ReadLine());
                         //TODO Add a service to delete a customer.
                         break;
 
                     case "5":
-                    case "Skapa konto":
+                    case "skapa konto":
                         Console.Write("\nAnge kundnummer där du vill att nya kontot skapas: ");
                         customerId = int.Parse(Console.ReadLine());
                         //TODO Add a service to create a account.
                         break;
 
                     case "6":
-                    case "Ta bort konto":
+                    case "ta bort konto":
                         Console.Write("\nAnge kontonummer för det konto du vill radera: ");
                         accountId = int.Parse(Console.ReadLine());
                         //TODO Add a service to delete an account.
@@ -104,7 +105,7 @@ namespace NetcoinCLI
                         break;
 
                     case "7":
-                    case "Insättning":
+                    case "insättning":
                         Console.Write("\nUppge summa för insätting:");
                         sum = int.Parse(Console.ReadLine());
                         Console.Write("Uppge kontonummer som insättningen kommer gå till: ");
@@ -114,7 +115,7 @@ namespace NetcoinCLI
                         break;
 
                     case "8":
-                    case "Uttag":
+                    case "uttag":
                         Console.Write("\nAnge summa som ska tas ut: ");
                         sum = int.Parse(Console.ReadLine());
                         Console.Write("Uppge vilket kontonummer ska dras från: ");
