@@ -5,6 +5,8 @@ using NetcoinLib.Services;
 using NetcoinUnitTests.Repositories;
 using NetcoinUnitTests.Utilities;
 using Xunit;
+using NetcoinUnitTests.Models;
+using System;
 
 namespace NetcoinUnitTests
 {
@@ -72,6 +74,46 @@ namespace NetcoinUnitTests
             Assert.False(result);
 
             Assert.Equal(fromAccount.Balance, 500);
+        }
+        [Fact]
+        public void WithdrawFromAccount()
+        {
+            //Assemble
+            NetcoinRepoRepresentation representation = NetcoinRepositoryUtility.CreateSampleCustomersAndAccounts(5, 100M);
+            INetcoinRepository fakeProvider = new FakeNetcoinRepository();
+            fakeProvider.GetAccounts().AddRange(representation.Accounts);
+            AccountService sut = new AccountService(fakeProvider);
+            BankSystem bank = new BankSystem(fakeProvider);
+            bank.Initialize();
+
+            //Act
+            sut.Withdraw(2, 100M);
+
+            //Act & assert
+            Assert.True(fakeProvider.GetAccounts().Single(x => x.AccountId == 2).Balance == 0);
+            Assert.Throws<InvalidOperationException>(() => sut.Withdraw(1, 101M));
+            Assert.Throws<ArgumentOutOfRangeException>(() => sut.Withdraw(1, -1M));
+            Assert.Throws<NullReferenceException>(() => sut.Withdraw(100, 1M));
+        }
+
+        [Fact]
+        public void DepositToAccount()
+        {
+            //Assemble
+            NetcoinRepoRepresentation representation = NetcoinRepositoryUtility.CreateSampleCustomersAndAccounts(5, 0M);
+            INetcoinRepository fakeProvider = new FakeNetcoinRepository();
+            fakeProvider.GetAccounts().AddRange(representation.Accounts);
+            AccountService sut = new AccountService(fakeProvider);
+            BankSystem bank = new BankSystem(fakeProvider);
+            bank.Initialize();
+
+            //Act
+            sut.Deposit(2, 100M);
+
+            //Act & assert
+            Assert.True(fakeProvider.GetAccounts().Single(x => x.AccountId == 2).Balance == 100);
+            Assert.Throws<ArgumentOutOfRangeException>(() => sut.Withdraw(1, -1M));
+            Assert.Throws<NullReferenceException>(() => sut.Withdraw(100, 1M));
         }
     }
 }
