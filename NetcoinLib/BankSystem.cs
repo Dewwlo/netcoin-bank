@@ -53,7 +53,15 @@ namespace NetcoinLib
             }
         }
 
-        public bool TransferMoneyBetweenAccounts(int toAccountId, int fromAccountId, decimal amount) =>
-            _accountService.TransferMoneyBetweenAccounts(toAccountId, fromAccountId, amount);
+        public void TransferMoneyBetweenAccounts(int toAccountId, int fromAccountId, decimal amount)
+        {
+            var result = _accountService.TransferMoneyBetweenAccounts(toAccountId, fromAccountId, amount);
+
+            if (result)
+                Console.WriteLine("Transfer succeeded");
+            else
+                throw new InvalidOperationException("Transfer failed. Make sure amount transferred is available on account.");
+        }
+            
     }
 }

@@ -54,23 +54,24 @@ namespace NetcoinUnitTests
         [Fact]
         public void CanTransferMoney()
         {
+            //Assemble
             CustomerService cService = new CustomerService(_repository);
             cService.CreateCustomer("John Doe", "101112-1234", "Stockholms Län", "Gustav Adolfs Torg 1", "12312", "Stockholm", "Sverige", "070-123 123 123");
             cService.CreateCustomer("Jane Doe", "101010-4321", "Stockholms Län", "Gustav Adolfs Torg 1", "12312", "Stockholm", "Sverige", "070-123 123 124");
             var fromAccount = _repository.GetAccounts().FirstOrDefault();
             var toAccount = _repository.GetAccounts().Skip(1).FirstOrDefault();
-            fromAccount.Balance = 1000M;
             AccountService sut = new AccountService(_repository);
 
+            //Act
+            fromAccount.Balance = 1000M;
             var result = sut.TransferMoneyBetweenAccounts(fromAccount.AccountId, toAccount.AccountId, 500M);
-            Assert.True(result);
 
+            //Act & Assert
+            Assert.True(result);
             result = sut.TransferMoneyBetweenAccounts(fromAccount.AccountId, toAccount.AccountId, 501M);
             Assert.False(result);
-
             result = sut.TransferMoneyBetweenAccounts(fromAccount.AccountId, toAccount.AccountId, -501M);
             Assert.False(result);
-
             Assert.Equal(fromAccount.Balance, 500);
         }
     }
