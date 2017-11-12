@@ -52,6 +52,16 @@ namespace NetcoinLib
                 throw new NullReferenceException("Account not found.");
             }
         }
+        public void DepositToAccount(int accountId, decimal amountToDeposit)
+        {
+            Account account = Accounts.SingleOrDefault(x => x.AccountId == accountId);
+            if (account == null)
+                throw new NullReferenceException("Account not found.");
+            if (amountToDeposit < 0.1M)
+                throw new ArgumentOutOfRangeException("The amount to deposit must be greater than 0.1.");
+
+            account.Balance = account.Balance + amountToDeposit;
+        }
 
         public bool TransferMoneyBetweenAccounts(int toAccountId, int fromAccountId, decimal amount) =>
             _accountService.TransferMoneyBetweenAccounts(toAccountId, fromAccountId, amount);
