@@ -24,7 +24,7 @@ namespace NetcoinLib.Services
                 int highId = 0;
                 if (repository.GetAccounts().Count > 0)
                 {
-                    highId = repository.GetAccounts().OrderByDescending(x => x.CustomerId).First().CustomerId;
+                    highId = repository.GetAccounts().OrderByDescending(x => x.AccountId).First().AccountId;
                 }
 
                 Account account = new Account {
@@ -35,6 +35,7 @@ namespace NetcoinLib.Services
                 };
 
                 repository.GetAccounts().Add(account);
+                customer.Accounts.Add(account);
                 return true;
             }
             catch (Exception)
@@ -66,6 +67,30 @@ namespace NetcoinLib.Services
             {
                 return false;
             }
+        }
+
+        public void TransferMoneyBetweenAccounts(int fromAccountId, int toAccountId, decimal amount)
+        {
+            var fromAccount = repository.GetAccounts().SingleOrDefault(a => a.AccountId == fromAccountId);
+            var toAccount = repository.GetAccounts().SingleOrDefault(a => a.AccountId == toAccountId);
+
+            if (ValidateAccounts(fromAccount, toAccount) != true)
+                throw new NullReferenceException("Account not found.");
+            if (ValidateTransferAmount(amount, fromAccount) != true)
+                throw new InvalidOperationException("Transfer failed. Make sure amount transferred is available on account.");
+
+            fromAccount.Balance -= amount;
+            toAccount.Balance += amount;
+        }
+
+        private bool ValidateTransferAmount(decimal amount, Account fromAccount)
+        {
+           return (amount >= 0.1M && fromAccount.Balance >= amount);
+        }
+
+        private bool ValidateAccounts(Account fromAccount, Account toAccount)
+        {
+            return fromAccount != null && toAccount != null;
         }
     }
 }

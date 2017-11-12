@@ -25,7 +25,7 @@ namespace NetcoinLib.Services
                 {
                     CustomerId = highId + 1,
                     LegalId = LegalId,
-                    Name = LegalId,
+                    Name = Name,
                     Area = Area,
                     Address = Address,
                     PostalCode = PostalCode,
@@ -35,14 +35,13 @@ namespace NetcoinLib.Services
                     Accounts = new List<Account>()
                 };
                 AccountService aService = new AccountService(repository);
-                bool success = aService.CreateAccount(customer);
-                if (success)
-                {
-                    Account transactionAccount = repository.GetAccounts().Find(x => x.CustomerId == customer.CustomerId);
-                    repository.GetAccounts().Add(transactionAccount);
-                }
-                repository.GetCustomers().Add(customer);
-                return true;
+                
+                var result = aService.CreateAccount(customer);
+
+                if (result)
+                    repository.GetCustomers().Add(customer);
+                
+                return result;
             }
             catch (Exception)
             {
