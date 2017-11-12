@@ -29,7 +29,7 @@ namespace NetcoinUnitTests
             sut.WithdrawFromAccount(2, 100M);
 
             //Act & assert
-            Assert.True(fakeProvider.GetAccounts().Single(x => x.AccountId == 2).Balance == 0);
+            Assert.True(_repository.GetAccounts().Single(x => x.AccountId == 2).Balance == 0);
             sut.WithdrawFromAccount(1, 101M);
             sut.WithdrawFromAccount(1, -1M);
             sut.WithdrawFromAccount(100, 1M);
@@ -43,16 +43,16 @@ namespace NetcoinUnitTests
         {
             //Assemble
             NetcoinRepoRepresentation representation = NetcoinRepositoryUtility.CreateSampleCustomersAndAccounts(5, 0M);
-            INetcoinRepository fakeProvider = new FakeNetcoinRepository();
-            fakeProvider.GetAccounts().AddRange(representation.Accounts);
-            BankSystem sut = new BankSystem(fakeProvider);
+            //INetcoinRepository fakeProvider = new FakeNetcoinRepository();
+            _repository.GetAccounts().AddRange(representation.Accounts);
+            BankSystem sut = new BankSystem(_repository);
             sut.Initialize();
 
             //Act
             sut.DepositToAccount(2, 100M);
 
             //Act & assert
-            Assert.True(fakeProvider.GetAccounts().Single(x => x.AccountId == 2).Balance == 100);
+            Assert.True(_repository.GetAccounts().Single(x => x.AccountId == 2).Balance == 100);
             sut.WithdrawFromAccount(1, -1M);
             sut.WithdrawFromAccount(100, 1M);
             //Assert.Throws<ArgumentOutOfRangeException>(() => sut.WithdrawFromAccount(1, -1M));

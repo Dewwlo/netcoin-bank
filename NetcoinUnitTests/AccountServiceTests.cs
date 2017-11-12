@@ -7,7 +7,6 @@ using NetcoinUnitTests.Repositories;
 using NetcoinUnitTests.Utilities;
 using Xunit;
 using NetcoinUnitTests.Models;
-using System;
 
 namespace NetcoinUnitTests
 {
