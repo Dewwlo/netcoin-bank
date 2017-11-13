@@ -175,7 +175,7 @@ namespace NetcoinCLI
                         var withdrawAccountId = int.Parse(Console.ReadLine());
                         Console.Write("Uppge kontonummer som ska ta emot summa: ");
                         var depositAccountId = int.Parse(Console.ReadLine());
-                        bool success = _bankSystem.TransferMoneyBetweenAccounts(depositAccountId, withdrawAccountId, sumForTranscation);
+                        bool success = _bankSystem.TransferMoneyBetweenAccounts(withdrawAccountId, depositAccountId, sumForTranscation);
                         if (success)
                         {
                             Console.WriteLine($"Skickade {sumForTranscation} från {withdrawAccountId} till {depositAccountId}");
