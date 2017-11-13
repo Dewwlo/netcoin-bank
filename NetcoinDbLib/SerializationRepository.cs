@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using NetcoinLib;
 using NetcoinLib.Models;
+using System.Threading;
 
 namespace NetcoinDbLib
 {
@@ -72,6 +73,7 @@ namespace NetcoinDbLib
 
         private void WriteToFile(StreamWriter writer)
         {
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
             writer.WriteLine(Customers.Count);
             Customers.ForEach(c =>
             {
@@ -105,12 +107,13 @@ namespace NetcoinDbLib
         }
         private void ReadAccount(string account)
         {
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
             string[] substrings = Regex.Split(account, ";");
             var newAccount = new Account
             {
                 AccountId = Int32.Parse(substrings[0]),
                 CustomerId = Int32.Parse(substrings[1]),
-                Balance = decimal.Parse(substrings[2]),
+                Balance = decimal.Parse(substrings[2], CultureInfo.GetCultureInfo("en-US")),
                 Customer = Customers.SingleOrDefault(c => c.CustomerId == Int32.Parse(substrings[1]))
             };
             
