@@ -119,7 +119,7 @@ namespace NetcoinCLI
                     case "5":
                     case "skapa konto":
                         Console.Write("\nAnge kundnummer där du vill att nya kontot skapas: ");
-                        var accountCreatedOrNot = _bankSystem.CreateAccount(Console.ReadLine());
+                        var accountCreatedOrNot = _bankSystem.CreateAccount(int.Parse(Console.ReadLine()));
                         if (accountCreatedOrNot)
                         {
                             Console.WriteLine("Konto skapat.");
@@ -134,7 +134,7 @@ namespace NetcoinCLI
                     case "ta bort konto":
                         Console.Write("\nAnge kontonummer för det konto du vill radera: ");
                         accountId = int.Parse(Console.ReadLine());
-                        //TODO Add a service to delete an account.
+                        
                         
                         break;
 
