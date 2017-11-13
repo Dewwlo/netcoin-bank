@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using NetcoinDbLib;
 using NetcoinLib;
+using System.Linq;
 
 namespace NetcoinCLI
 {
@@ -76,6 +77,7 @@ namespace NetcoinCLI
                         {
                             Console.WriteLine($"{account.AccountId}: {account.Balance} kr");
                         }
+                        Console.WriteLine($"\nTotalt saldo: { result.Accounts.Sum(x => x.Balance) } kr");
                         break;
 
                     case "3":
