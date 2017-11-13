@@ -33,6 +33,8 @@ namespace NetcoinLib
             TotalBalance = Accounts.Sum(a => a.Balance);
         }
 
+        public bool CreateCustomer(string name, string legalId, string area, string address, string postalCode, string city, string country, string phoneNumber) => _customerService.CreateCustomer(name, legalId, area, address,postalCode,city,country,phoneNumber);
+
         public Customer GetCustomerById(string search)
         {
             var result = _customerService.GetCustomerByCustomerId(search);
