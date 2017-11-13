@@ -31,7 +31,7 @@ namespace NetcoinCLI
 
         public void HandleMenuSelection(string input)
         {
-            //var accountId = 0;
+            var accountId = 0;
             var sum = 0;
             input = input.ToLower();
             try
