@@ -33,7 +33,6 @@ namespace NetcoinCLI
         {
             var accountId = 0;
             decimal sum = 0;
-            input = input.ToLower();
             try
             {
                 switch (input)
