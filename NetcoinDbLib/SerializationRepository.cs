@@ -123,6 +123,7 @@ namespace NetcoinDbLib
                 Accounts.Add(newAccount);
                 customer.Accounts.Add(newAccount);
             }
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InstalledUICulture;
         }
     }
 }

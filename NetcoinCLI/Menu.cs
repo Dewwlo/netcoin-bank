@@ -32,7 +32,7 @@ namespace NetcoinCLI
         public void HandleMenuSelection(string input)
         {
             var accountId = 0;
-            var sum = 0;
+            decimal sum = 0;
             input = input.ToLower();
             try
             {
@@ -143,7 +143,7 @@ namespace NetcoinCLI
                     case "7":
                     case "insättning":
                         Console.Write("\nUppge summa för insätting:");
-                        sum = int.Parse(Console.ReadLine());
+                        sum = decimal.Parse(Console.ReadLine());
                         Console.Write("Uppge kontonummer som insättningen kommer gå till: ");
                         accountId = int.Parse(Console.ReadLine());
                         methodResult = _bankSystem.DepositToAccount(accountId, sum);
@@ -153,7 +153,7 @@ namespace NetcoinCLI
                     case "8":
                     case "uttag":
                         Console.Write("\nAnge summa som ska tas ut: ");
-                        sum = int.Parse(Console.ReadLine());
+                        sum = decimal.Parse(Console.ReadLine());
                         Console.Write("Uppge vilket kontonummer ska dras från: ");
                         accountId = int.Parse(Console.ReadLine());
                         methodResult = _bankSystem.DepositToAccount(accountId,sum);
@@ -163,7 +163,7 @@ namespace NetcoinCLI
                     case "9":
                     case "överföring":
                         Console.Write("\nAnge summa för transaktion: ");
-                        var sumForTranscation = int.Parse(Console.ReadLine());
+                        var sumForTranscation = decimal.Parse(Console.ReadLine());
                         Console.Write("Uppge kontonummer som ska debiteras: ");
                         var withdrawAccountId = int.Parse(Console.ReadLine());
                         Console.Write("Uppge kontonummer som ska ta emot summa: ");
