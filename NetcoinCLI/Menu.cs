@@ -82,17 +82,31 @@ namespace NetcoinCLI
 
                     case "3":
                     case "skapa kund":
-                        Console.Write("\nFör in uppgifter för att skapa kund: \n\tNamn: ");
+                        Console.Write("\nFör in uppgifter för att skapa kund: \nNamn: ");
                         var name = Console.ReadLine();
-                        Console.Write("Personnummer: ");
+                        Console.Write("Organisationsnummer: ");
                         var legalId = Console.ReadLine();
                         Console.Write("Gatuadress: ");
                         var address = Console.ReadLine();
                         Console.Write("Postnummer: ");
                         var postalCode = Console.ReadLine();
+                        Console.Write("Stad: ");
+                        var city = Console.ReadLine();
                         Console.Write("Område: ");
                         var area = Console.ReadLine();
-                        //TODO Add a service to add a customer.
+                        Console.Write("Land: ");
+                        var country = Console.ReadLine();
+                        Console.Write("Telefonnummer: ");
+                        var phonenumber = Console.ReadLine();
+                        var isCreatedOrNot = _bankSystem.CreateCustomer(name,legalId,area,address,postalCode,city,country,phonenumber);
+                        if (isCreatedOrNot)
+                        {
+                            Console.Write($"Kund {name}, med organistaionsnummer: {legalId} skapad");
+                        }
+                        else
+                        {
+                            Console.Write("Något gick fel när du skapade kunden. Kontakta support.");
+                        }
                         break;
 
                     case "4":
