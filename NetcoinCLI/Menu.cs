@@ -113,7 +113,10 @@ namespace NetcoinCLI
                     case "ta bort kund":
                         Console.Write("\nSkriv in kundnummer för den du vill radera: ");
                         customerId = int.Parse(Console.ReadLine());
-                        //TODO Add a service to delete a customer.
+                        if (_bankSystem.RemoveCustomer(customerId))
+                            Console.WriteLine($"Kund med ID { customerId } med tillhörande konton har tagits bort.");
+                        else
+                            Console.WriteLine("Kunden kunde inte tas bort - var god kontrollera kundnummer och att dess konton har 0 i saldo.");
                         break;
 
                     case "5":
