@@ -89,27 +89,6 @@ namespace NetcoinLib
             }
         }
 
-        public bool CreateAccount(string customerId)
-        {
-            var customer = _customerService.GetCustomerByCustomerId(customerId);
-            if (customer.CustomerId != 0)
-            {
-                var result = _accountService.CreateAccount(customer);
-                if (result)
-                {
-                    return result;
-                }
-                else
-                {
-                    return result;
-                }
-               
-            }
-            else
-            {
-                throw new NullReferenceException("Det finns ingen kund med detta kundid.");
-            }
-            
-        }
+        public bool CreateAccount(int customerId) => _accountService.CreateAccount(customerId);
     }
 }
