@@ -35,6 +35,15 @@ namespace NetcoinLib
 
         public bool CreateCustomer(string name, string legalId, string area, string address, string postalCode, string city, string country, string phoneNumber) => _customerService.CreateCustomer(name, legalId, area, address, postalCode, city, country, phoneNumber);
 
+        public bool RemoveCustomer(int customerId)
+        {
+            Customer customer = Customers.SingleOrDefault(x => x.CustomerId == customerId);
+            if (customer != null)
+                return _customerService.RemoveCustomer(customer);
+            else
+                return false;
+        }
+
         public Customer GetCustomerById(string search)
         {
             var result = _customerService.GetCustomerByCustomerId(search);
