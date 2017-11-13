@@ -20,7 +20,7 @@ namespace NetcoinCLI
         {
             _bankSystem.ReadTextFile(args[0]);
             _bankSystem.Initialize();
-            //ShowBankLogo();
+            ShowBankLogo();
             ShowCustomerAccountsStatistics();
             ShowMenu();
             while (isRunning)
@@ -208,7 +208,7 @@ namespace NetcoinCLI
 
         public void ShowMenu()
         {
-            Console.WriteLine("\n\n\n HUVUDMENY" +
+            Console.WriteLine("\n\n HUVUDMENY" +
                               "\n 1) Sök kund" +
                               "\n 2) Visa kundbild" +
                               "\n 3) Skapa kund" +
@@ -232,14 +232,14 @@ namespace NetcoinCLI
 
         public void ShowBankLogo()
         {
-
-            //TODO If there is time, fix ASCII art.
-            //Console.WriteLine(" _   _  _____  _____  _____  _____  _____  _   _ ______   ___   _   _  _   __");
-            //Console.WriteLine("| \\ | || ___ || _   _ |/ __ \\| _ || _   _ || \\ | || ___ \\ / _ \\ | \\ | || | / /");
-            //Console.WriteLine("|  \\| || | __ | |  | /  \\/| | | |  | |  |  \\| || | _ / // /_\\ \\|  \\| || |/ /");
-            //Console.WriteLine("| . ` || __ |   | |  | |    | | | |  | |  | . ` || ___ \\| _ || . ` ||    \\ ");
-            //Console.WriteLine("| |\\  || | ___ | |  | \\__ /\\ \\_ / / _ | | _ | |\\  || | _ / /| | | || |\\  || |\\  \\");
-            //Console.WriteLine("\\_ | \\_ /\\____ /   \\_ /   \\____ / \\___ /  \\___ / \\_ | \\_ /\\____ / \\_ | | _ /\\_ | \\_ /\\_ | \\_ /");
+            Console.WriteLine(" /$$   /$$ /$$$$$$$$ /$$$$$$$$ /$$$$$$   /$$$$$$  /$$$$$$ /$$   /$$ /$$$$$$$   /$$$$$$  /$$   /$$ /$$   /$$");
+            Console.WriteLine("| $$$ | $$| $$_____/|__  $$__//$$__  $$ /$$__  $$|_  $$_/| $$$ | $$| $$__  $$ /$$__  $$| $$$ | $$| $$  /$$/");
+            Console.WriteLine("| $$$$| $$| $$         | $$  | $$  \\__/| $$  \\ $$  | $$  | $$$$| $$| $$  \\ $$| $$  \\ $$| $$$$| $$| $$ /$$/ ");
+            Console.WriteLine("| $$ $$ $$| $$$$$      | $$  | $$      | $$  | $$  | $$  | $$ $$ $$| $$$$$$$ | $$$$$$$$| $$ $$ $$| $$$$$/  ");
+            Console.WriteLine("| $$  $$$$| $$__/      | $$  | $$      | $$  | $$  | $$  | $$  $$$$| $$__  $$| $$__  $$| $$  $$$$| $$  $$  ");
+            Console.WriteLine("| $$\\  $$$| $$         | $$  | $$    $$| $$  | $$  | $$  | $$\\  $$$| $$  \\ $$| $$  | $$| $$\\  $$$| $$\\  $$ ");
+            Console.WriteLine("| $$ \\  $$| $$$$$$$$   | $$  |  $$$$$$/|  $$$$$$/ /$$$$$$| $$ \\  $$| $$$$$$$/| $$  | $$| $$ \\  $$| $$ \\  $$");
+            Console.WriteLine("|__/  \\__/|________/   |__/   \\______/  \\______/ |______/|__/  \\__/|_______/ |__/  |__/|__/  \\__/|__/  \\__/ \n");
         }
     }
 }
