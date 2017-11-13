@@ -99,5 +99,11 @@ namespace NetcoinLib
         }
 
         public bool CreateAccount(int customerId) => _accountService.CreateAccount(customerId);
+
+        public bool RemoveAccount(int accountNumber)
+        {
+            var account = Accounts.FirstOrDefault(a=> accountNumber == a.AccountId);            
+            return _accountService.RemoveAccount(account);
+        }
     }
 }

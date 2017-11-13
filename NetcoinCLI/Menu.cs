@@ -63,7 +63,7 @@ namespace NetcoinCLI
                     case "visa kundbild":
                         Console.Write("\nSkriv in kundnummer för att få kundbild: ");
                         var result = _bankSystem.GetCustomerById(Console.ReadLine());
-                        Console.WriteLine($"KundId: {result.CustomerId}\n" +
+                        Console.WriteLine($"Kundnummer: {result.CustomerId}\n" +
                             $"Namn: {result.Name}\n" +
                             $"Organisationsnummer: {result.LegalId}\n" +
                             $"Adress: {result.Address}\n" +
@@ -135,8 +135,15 @@ namespace NetcoinCLI
                     case "6":
                     case "ta bort konto":
                         Console.Write("\nAnge kontonummer för det konto du vill radera: ");
-                        accountId = int.Parse(Console.ReadLine());
-                        
+                        var accountRemovedOrNot = _bankSystem.RemoveAccount(int.Parse(Console.ReadLine()));
+                        if (accountRemovedOrNot)
+                        {
+                            Console.WriteLine("Konto raderat.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Konto inte raderat, något gick fel. kontakta support.");
+                        }
                         
                         break;
 
