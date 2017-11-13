@@ -32,7 +32,7 @@ namespace NetcoinCLI
         public void HandleMenuSelection(string input)
         {
             //var customerId = 0;
-            var accountId = 0;
+            //var accountId = 0;
             var sum = 0;
             input = input.ToLower();
             try
@@ -133,8 +133,15 @@ namespace NetcoinCLI
                     case "6":
                     case "ta bort konto":
                         Console.Write("\nAnge kontonummer för det konto du vill radera: ");
-                        accountId = int.Parse(Console.ReadLine());
-                        
+                        var accountRemovedOrNot = _bankSystem.RemoveAccount(int.Parse(Console.ReadLine()));
+                        if (accountRemovedOrNot)
+                        {
+                            Console.WriteLine("Konto raderat.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Konto inte raderat, något gick fel. kontakta support.");
+                        }
                         
                         break;
 
