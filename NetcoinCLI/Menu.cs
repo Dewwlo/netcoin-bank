@@ -163,7 +163,7 @@ namespace NetcoinCLI
                         sum = decimal.Parse(Console.ReadLine());
                         Console.Write("Uppge vilket kontonummer ska dras från: ");
                         accountId = int.Parse(Console.ReadLine());
-                        methodResult = _bankSystem.DepositToAccount(accountId,sum);
+                        methodResult = _bankSystem.WithdrawFromAccount(accountId,sum);
                         Console.WriteLine(methodResult);
                         break;
 
