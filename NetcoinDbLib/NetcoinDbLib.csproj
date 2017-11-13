@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="data\bankdata-small.txt" />
+    <None Remove="data\bankdata.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="data\bankdata-small.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\bankdata.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NetcoinLib\NetcoinLib.csproj" />
+  </ItemGroup>
+
+</Project>
