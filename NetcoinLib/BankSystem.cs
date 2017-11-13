@@ -33,7 +33,7 @@ namespace NetcoinLib
             TotalBalance = Accounts.Sum(a => a.Balance);
         }
 
-        public bool CreateCustomer(string name, string legalId, string area, string address, string postalCode, string city, string country, string phoneNumber) => _customerService.CreateCustomer(name, legalId, area, address,postalCode,city,country,phoneNumber);
+        public bool CreateCustomer(string name, string legalId, string area, string address, string postalCode, string city, string country, string phoneNumber) => _customerService.CreateCustomer(name, legalId, area, address, postalCode, city, country, phoneNumber);
 
         public Customer GetCustomerById(string search)
         {
@@ -60,7 +60,7 @@ namespace NetcoinLib
             catch (Exception e)
             {
                 return e.Message;
-            }            
+            }
         }
 
         public string DepositToAccount(int accountId, decimal amountToDeposit)
@@ -73,7 +73,7 @@ namespace NetcoinLib
             catch (Exception e)
             {
                 return e.Message;
-            }            
+            }
         }
 
         public bool TransferMoneyBetweenAccounts(int fromAccountId, int toAccountId, decimal amount)
@@ -86,7 +86,30 @@ namespace NetcoinLib
             catch (Exception)
             {
                 return false;
-            }            
+            }
+        }
+
+        public bool CreateAccount(string customerId)
+        {
+            var customer = _customerService.GetCustomerByCustomerId(customerId);
+            if (customer.CustomerId != 0)
+            {
+                var result = _accountService.CreateAccount(customer);
+                if (result)
+                {
+                    return result;
+                }
+                else
+                {
+                    return result;
+                }
+               
+            }
+            else
+            {
+                throw new NullReferenceException("Det finns ingen kund med detta kundid.");
+            }
+            
         }
     }
 }
