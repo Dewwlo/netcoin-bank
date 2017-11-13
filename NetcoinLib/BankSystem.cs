@@ -33,6 +33,17 @@ namespace NetcoinLib
             TotalBalance = Accounts.Sum(a => a.Balance);
         }
 
+        public bool CreateCustomer(string name, string legalId, string area, string address, string postalCode, string city, string country, string phoneNumber) => _customerService.CreateCustomer(name, legalId, area, address, postalCode, city, country, phoneNumber);
+
+        public bool RemoveCustomer(int customerId)
+        {
+            Customer customer = Customers.SingleOrDefault(x => x.CustomerId == customerId);
+            if (customer != null)
+                return _customerService.RemoveCustomer(customer);
+            else
+                return false;
+        }
+
         public Customer GetCustomerById(string search)
         {
             var result = _customerService.GetCustomerByCustomerId(search);
@@ -58,7 +69,7 @@ namespace NetcoinLib
             catch (Exception e)
             {
                 return e.Message;
-            }            
+            }
         }
 
         public string DepositToAccount(int accountId, decimal amountToDeposit)
@@ -71,7 +82,7 @@ namespace NetcoinLib
             catch (Exception e)
             {
                 return e.Message;
-            }            
+            }
         }
 
         public bool TransferMoneyBetweenAccounts(int fromAccountId, int toAccountId, decimal amount)
@@ -84,7 +95,15 @@ namespace NetcoinLib
             catch (Exception)
             {
                 return false;
-            }            
+            }
+        }
+
+        public bool CreateAccount(int customerId) => _accountService.CreateAccount(customerId);
+
+        public bool RemoveAccount(int accountNumber)
+        {
+            var account = Accounts.FirstOrDefault(a=> accountNumber == a.AccountId);            
+            return _accountService.RemoveAccount(account);
         }
     }
 }

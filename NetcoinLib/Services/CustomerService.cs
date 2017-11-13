@@ -28,6 +28,10 @@ namespace NetcoinLib.Services
         }
         public bool CreateCustomer(string Name, string LegalId, string Area, string Address, string PostalCode, string City, string Country, string PhoneNumber)
         {
+            if (String.IsNullOrWhiteSpace(Name) || String.IsNullOrWhiteSpace(LegalId) || String.IsNullOrWhiteSpace(Area) || String.IsNullOrWhiteSpace(PostalCode)
+                || String.IsNullOrWhiteSpace(City) || String.IsNullOrWhiteSpace(Country) || String.IsNullOrWhiteSpace(PhoneNumber))
+                return false;
+
             try
             {
                 int highId = 0;
@@ -78,13 +82,14 @@ namespace NetcoinLib.Services
 
         public List<Customer> SearchAfterCustomerWithAreaOrName(string search)
         {
+            search = search.ToLower();
             if (search == "")
             {
                 return new List<Customer>();
             }
             else
             {
-                return Customers.Where((c => c.Area.Contains(search) || c.Name.Contains(search))).ToList();
+                return Customers.Where((c => c.Area.ToLower().Contains(search) || c.Name.ToLower().Contains(search))).ToList();
             }            
         }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using NetcoinDbLib;
 using NetcoinLib;
+using System.Linq;
 
 namespace NetcoinCLI
 {
@@ -31,10 +32,8 @@ namespace NetcoinCLI
 
         public void HandleMenuSelection(string input)
         {
-            var customerId = 0;
             var accountId = 0;
-            var sum = 0;
-            input = input.ToLower();
+            decimal sum = 0;
             try
             {
                 switch (input)
@@ -64,7 +63,7 @@ namespace NetcoinCLI
                     case "visa kundbild":
                         Console.Write("\nSkriv in kundnummer för att få kundbild: ");
                         var result = _bankSystem.GetCustomerById(Console.ReadLine());
-                        Console.WriteLine($"KundId: {result.CustomerId}\n" +
+                        Console.WriteLine($"Kundnummer: {result.CustomerId}\n" +
                             $"Namn: {result.Name}\n" +
                             $"Organisationsnummer: {result.LegalId}\n" +
                             $"Adress: {result.Address}\n" +
@@ -78,49 +77,81 @@ namespace NetcoinCLI
                         {
                             Console.WriteLine($"{account.AccountId}: {account.Balance} kr");
                         }
+                        Console.WriteLine($"\nTotalt saldo: { result.Accounts.Sum(x => x.Balance) } kr");
                         break;
 
                     case "3":
                     case "skapa kund":
-                        Console.Write("\nFör in uppgifter för att skapa kund: \n\tNamn: ");
+                        Console.Write("\nFör in uppgifter för att skapa kund: \nNamn: ");
                         var name = Console.ReadLine();
-                        Console.Write("Personnummer: ");
+                        Console.Write("Organisationsnummer: ");
                         var legalId = Console.ReadLine();
                         Console.Write("Gatuadress: ");
                         var address = Console.ReadLine();
                         Console.Write("Postnummer: ");
                         var postalCode = Console.ReadLine();
+                        Console.Write("Stad: ");
+                        var city = Console.ReadLine();
                         Console.Write("Område: ");
                         var area = Console.ReadLine();
-                        //TODO Add a service to add a customer.
+                        Console.Write("Land: ");
+                        var country = Console.ReadLine();
+                        Console.Write("Telefonnummer: ");
+                        var phonenumber = Console.ReadLine();
+                        var isCreatedOrNot = _bankSystem.CreateCustomer(name,legalId,area,address,postalCode,city,country,phonenumber);
+                        if (isCreatedOrNot)
+                        {
+                            Console.Write($"Kund {name}, med organistaionsnummer: {legalId} skapad");
+                        }
+                        else
+                        {
+                            Console.Write("Något gick fel när du skapade kunden. Kontakta support.");
+                        }
                         break;
 
                     case "4":
                     case "ta bort kund":
                         Console.Write("\nSkriv in kundnummer för den du vill radera: ");
-                        customerId = int.Parse(Console.ReadLine());
-                        //TODO Add a service to delete a customer.
+                        int customerId = int.Parse(Console.ReadLine());
+                        if (_bankSystem.RemoveCustomer(customerId))
+                            Console.WriteLine($"Kund med ID { customerId } med tillhörande konton har tagits bort.");
+                        else
+                            Console.WriteLine("Kunden kunde inte tas bort - var god kontrollera kundnummer och att dess konton har 0 i saldo.");
                         break;
 
                     case "5":
                     case "skapa konto":
                         Console.Write("\nAnge kundnummer där du vill att nya kontot skapas: ");
-                        customerId = int.Parse(Console.ReadLine());
-                        //TODO Add a service to create a account.
+                        var accountCreatedOrNot = _bankSystem.CreateAccount(int.Parse(Console.ReadLine()));
+                        if (accountCreatedOrNot)
+                        {
+                            Console.WriteLine("Konto skapat.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Något gick fel när konto skulle skapas, kontakta support.");
+                        }
                         break;
 
                     case "6":
                     case "ta bort konto":
                         Console.Write("\nAnge kontonummer för det konto du vill radera: ");
-                        accountId = int.Parse(Console.ReadLine());
-                        //TODO Add a service to delete an account.
+                        var accountRemovedOrNot = _bankSystem.RemoveAccount(int.Parse(Console.ReadLine()));
+                        if (accountRemovedOrNot)
+                        {
+                            Console.WriteLine("Konto raderat.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Konto inte raderat, något gick fel. kontakta support.");
+                        }
                         
                         break;
 
                     case "7":
                     case "insättning":
                         Console.Write("\nUppge summa för insätting:");
-                        sum = int.Parse(Console.ReadLine());
+                        sum = decimal.Parse(Console.ReadLine());
                         Console.Write("Uppge kontonummer som insättningen kommer gå till: ");
                         accountId = int.Parse(Console.ReadLine());
                         methodResult = _bankSystem.DepositToAccount(accountId, sum);
@@ -130,22 +161,22 @@ namespace NetcoinCLI
                     case "8":
                     case "uttag":
                         Console.Write("\nAnge summa som ska tas ut: ");
-                        sum = int.Parse(Console.ReadLine());
+                        sum = decimal.Parse(Console.ReadLine());
                         Console.Write("Uppge vilket kontonummer ska dras från: ");
                         accountId = int.Parse(Console.ReadLine());
-                        methodResult = _bankSystem.DepositToAccount(accountId,sum);
+                        methodResult = _bankSystem.WithdrawFromAccount(accountId,sum);
                         Console.WriteLine(methodResult);
                         break;
 
                     case "9":
                     case "överföring":
                         Console.Write("\nAnge summa för transaktion: ");
-                        var sumForTranscation = int.Parse(Console.ReadLine());
+                        var sumForTranscation = decimal.Parse(Console.ReadLine());
                         Console.Write("Uppge kontonummer som ska debiteras: ");
                         var withdrawAccountId = int.Parse(Console.ReadLine());
                         Console.Write("Uppge kontonummer som ska ta emot summa: ");
                         var depositAccountId = int.Parse(Console.ReadLine());
-                        bool success = _bankSystem.TransferMoneyBetweenAccounts(depositAccountId, withdrawAccountId, sumForTranscation);
+                        bool success = _bankSystem.TransferMoneyBetweenAccounts(withdrawAccountId, depositAccountId, sumForTranscation);
                         if (success)
                         {
                             Console.WriteLine($"Skickade {sumForTranscation} från {withdrawAccountId} till {depositAccountId}");
